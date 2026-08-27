@@ -18,4 +18,6 @@ export type AuthService = {
   signIn(input: SignInInput): Promise<AuthSession>;
   signUp(input: SignUpInput): Promise<AuthSession>;
   signOut(): Promise<void>;
+  /** Flips `hasCompletedOnboarding`, which is what the route guard reads. */
+  completeOnboarding(): Promise<AuthSession>;
 };

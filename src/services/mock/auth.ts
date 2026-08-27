@@ -44,4 +44,15 @@ export const mockAuthService: AuthService = {
     await delay(150);
     await storage.remove(storageKeys.authSession);
   },
+
+  async completeOnboarding() {
+    await delay(200);
+    const session = await storage.get<AuthSession>(storageKeys.authSession);
+
+    if (!session) {
+      throw new ServiceError('unauthorized', 'You are not signed in.');
+    }
+
+    return persist({ ...session, hasCompletedOnboarding: true });
+  },
 };

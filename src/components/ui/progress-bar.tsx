@@ -41,7 +41,7 @@ export function ProgressBar({
       accessibilityRole="progressbar"
       accessibilityLabel={accessibilityLabel}
       accessibilityValue={{ min: 0, max: 100, now: Math.round(resolved * 100) }}
-      className={cn('w-full overflow-hidden', className)}
+      className={cn('relative w-full', className)}
       style={{ height, backgroundColor: colors.border }}
     >
       <Animated.View
@@ -57,10 +57,12 @@ export function ProgressBar({
           style={{
             position: 'absolute',
             left: `${clamp(target) * 100}%`,
-            top: 0,
-            bottom: 0,
+            top: -3,
+            bottom: -3,
             width: rule.section,
-            backgroundColor: colors.text,
+            // Always the opposite of the fill, so the marker stays visible even
+            // once progress runs past it.
+            backgroundColor: tone === 'accent' ? colors.text : colors.primary,
           }}
         />
       )}

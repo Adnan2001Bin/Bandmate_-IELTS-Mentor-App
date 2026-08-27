@@ -2,9 +2,9 @@
 
 Living document. Updated at the end of every phase.
 
-- **Current phase:** 02 — Project Foundation
-- **Status:** Complete — typecheck, lint and an Android Metro bundle all pass
-- **Next phase:** 03 — Design System + Theme (do not start without an explicit prompt)
+- **Current phase:** 05 — Authentication + onboarding + diagnostic
+- **Status:** Complete — typecheck, lint, and a signed-out-to-Today walkthrough all pass
+- **Next phase:** 06 — Home + Practice hub (do not start without an explicit prompt)
 
 ---
 
@@ -93,7 +93,7 @@ The deck (`Bandmate.dc.html`) applies the **Modernist** design system to a phone
 | 02 | Project foundation | ✅ Complete |
 | 03 | Design system + light/dark/system theme | ✅ Complete |
 | 04 | Navigation + app shell | ✅ Complete |
-| 05 | Authentication + onboarding + diagnostic | ⬜ Not started |
+| 05 | Authentication + onboarding + diagnostic | ✅ Complete |
 | 06 | Today (home) + Practice hub | ⬜ Not started |
 | 07A | Listening | ⬜ Not started |
 | 07B | Reading | ⬜ Not started |
@@ -138,8 +138,8 @@ src/app/
   profile/           ✅ goals · settings
   mistakes/          ✅ index                   (detail added in Phase 09)
   (modals)/          ✅ plan-change             (submit-confirm · explanation · filters as needed)
-  (auth)/            ⬜ Phase 05
-  (onboarding)/      ⬜ Phase 05
+  (auth)/            ✅ welcome · sign-in · sign-up
+  (onboarding)/      ✅ goal · target · time · diagnostic-intro · diagnostic · result
 ```
 
 Each feature owns its own `_layout.tsx` — no single giant routing file. Every route above is typed: `expo-router`'s generated `Href` union is what validates each `router.push`, so a broken link fails at `tsc` rather than at runtime.
@@ -151,17 +151,17 @@ Each feature owns its own `_layout.tsx` — no single giant routing file. Every 
 Legend: ⬜ not started · 🟡 in progress · ✅ done
 
 ### Auth & onboarding — Phase 05
-- ⬜ Welcome / "I'm Mira, I'll be your tutor"
-- ⬜ Sign in (mock)
-- ⬜ Sign up (mock)
-- ⬜ Onboarding step 1 — why you're taking IELTS / study goal
-- ⬜ Onboarding step 2 — target band + test date + Academic / General Training
-- ⬜ Onboarding step 3 — daily time available
-- ⬜ Onboarding step 4 — current level / diagnostic hand-off
-- ⬜ Voice diagnostic (dark, 30s recording)
-- ⬜ Diagnostic sections — 10 listening, 10 reading, 1 writing task
-- ⬜ Diagnostic result — "your starting point", per-skill bars, plan in one line
-- ⬜ Plan built / completion
+- ✅ Welcome / "I'm Mira, I'll be your tutor"
+- ✅ Sign in (mock)
+- ✅ Sign up (mock)
+- ✅ Onboarding step 1 — why you're taking IELTS / study goal
+- ✅ Onboarding step 2 — target band + test date + Academic / General Training
+- ✅ Onboarding step 3 — daily time available
+- ✅ Onboarding step 4 — current level / diagnostic hand-off
+- ✅ Voice diagnostic (dark, 30s recording)
+- ⏭️ Diagnostic sections — 10 listening, 10 reading, 1 writing task — **deferred.** The deck's diagnostic is voice-first and 90 seconds. Full skill papers are the Phase 07 runners, not a second onboarding quiz.
+- ✅ Diagnostic result — "your starting point", per-skill bars, plan in one line
+- ✅ Plan built / completion
 
 ### Today — Phase 06
 - ⬜ Today dashboard — Mira's headline, today's session (ink block), forecast + mocks stats, Mira's flag
@@ -254,7 +254,7 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done
 All in `src/components/ui`, exported from one barrel.
 
 - ✅ `Screen` (safe areas, scroll variant, standard gutter)
-- ✅ `Text` (display / displaySm / numeral / h1–h4 / body / bodySm / label / kicker / caption)
+- ✅ `Text` (displayLg / display / displaySm / numeral / h1–h4 / body / bodySm / label / kicker / caption)
 - ✅ `Button` (primary / secondary / outline / ghost, flush-left label, leading + trailing icon, loading, disabled)
 - ✅ `Card` (outlined / filled, optionally pressable)
 - ✅ `Rule` (1px row, 2px section, 4px emphasis, accent option)
@@ -282,9 +282,17 @@ In `src/components/layout`.
 - ✅ `AppTabBar` (2px top rule, 3px accent rule over the active tab, haptic on change)
 - ✅ `Placeholder` (a route that exists so navigation can be built before its feature — every one names the phase that replaces it)
 
+### Auth & onboarding — Phase 05
+- ✅ `OnboardingStep` (progress, back, pinned continue)
+- ✅ `DateField` (Android dialog, iOS spinner sheet, web overlay picker)
+- ✅ `ControlledInput` (React Hook Form + Zod)
+- ✅ `MiraMark` (accent square, optional pulse rings)
+- ✅ `Waveform` (listening bars)
+- ✅ `SkillBar` (now vs. target rule; accent fill when the gap is a full band)
+
 ### IELTS-specific — Phases 06–09
 - ⬜ `BandScore` (display numeral + delta)
-- ⬜ `SkillBar` (now vs. target rule)
+- ✅ `SkillBar` (now vs. target rule) — built in Phase 05 for the diagnostic result
 - ⬜ `SkillCard`
 - ⬜ `SessionCard`
 - ⬜ `MiraNote` (accent left rule + heading + body)
@@ -304,7 +312,7 @@ In `src/components/layout`.
 - ⬜ `SentenceFeedback`
 - ⬜ `RewriteCompare`
 - ⬜ `SpeakingRecorder` (mic control + state)
-- ⬜ `Waveform`
+- ✅ `Waveform` — built in Phase 05 for the voice diagnostic
 - ⬜ `CoachingCard`
 - ⬜ `CueCard`
 - ⬜ `Transcript`
@@ -322,9 +330,9 @@ In `src/components/layout`.
 
 ## 7. Feature checklist
 
-- ⬜ Mock authentication + session persistence
-- ⬜ Onboarding capture: target band, test date, test type, study goal, daily minutes
-- ⬜ Voice diagnostic + estimated starting band
+- ✅ Mock authentication + session persistence
+- ✅ Onboarding capture: target band, test date, test type, study goal, daily minutes
+- ✅ Voice diagnostic + estimated starting band
 - ⬜ Adaptive daily plan (mock engine: weakest skill gets the most minutes)
 - ⬜ Today's session chaining and debrief
 - ⬜ Listening practice + results + transcript
@@ -354,8 +362,8 @@ In `src/components/layout`.
 ## 8. Mock data & services checklist
 
 ### Service interfaces (mock now, API later)
-- ✅ `authService` — contract + mock, session persisted to device storage
-- ⬜ `onboardingService`
+- ✅ `authService` — contract + mock, session persisted; `completeOnboarding` flips the route-guard flag
+- ✅ `diagnosticService` — voice sample / skip estimate; mock returns the §17 starting bands
 - ⬜ `planService` (today's plan, plan changes)
 - ⬜ `listeningService`
 - ⬜ `readingService`
@@ -440,7 +448,7 @@ Filled in from Phase 04 onward; verified in full at Phase 12.
 - ⬜ No layout overflow at small and large text sizes
 - ⬜ Keyboard behavior in the writing editor and chat
 - ⬜ Timers, audio, and recording states behave on background/foreground
-- ⬜ Form validation and error states
+- ✅ Form validation and error states
 - ⬜ Loading / empty / error state on every data surface
 - ⬜ Lists virtualized where long
 - ⬜ Animations run on the UI thread
@@ -450,6 +458,28 @@ Filled in from Phase 04 onward; verified in full at Phase 12.
 ---
 
 ## 12. Phase log
+
+### Phase 05 — Authentication + onboarding + diagnostic · ✅
+
+**Auth is mock, behind a contract.** Sign-in and sign-up write an `AuthSession` through `services.auth`. Returning users skip onboarding; new accounts land in the four-step flow. Sign out lives in Profile → Settings and returns to welcome.
+
+**The route guard is the product.** Root `Stack.Protected` swaps `(auth)` / `(onboarding)` / the tabs based on session, so an unauthorised route never mounts. Screens do not navigate to Today themselves — completing onboarding flips `hasCompletedOnboarding` and the guard does the rest.
+
+**Onboarding asks only what the plan needs:** goal, target band, test date, Academic vs General Training, daily minutes. The date field refuses anything closer than a week and tells the learner what gain is realistic in the time they have.
+
+**Diagnostic is voice-first**, matching the deck, not a four-paper exam. Thirty seconds on a dark capture screen (or a skip that estimates from the answers) produces a starting-point result: overall band, Mira's one-line read, per-skill bars with a target rule, and "the plan, in one line." Full listening / reading / writing papers are Phase 07.
+
+**Decisions made during the build**
+
+- **No 10+10+1 diagnostic quiz in onboarding.** `APP_DESCRIPTION.md` §17 lists those papers; the deck's diagnostic is a 90-second voice sample that returns a diagnosis. Rebuilding the skill runners here would duplicate Phase 07. Skip still produces a plan, so nobody is blocked.
+- **Date picking is platform-native.** Android dialog, iOS spinner in a sheet, web overlay on the designed field. No custom calendar chrome.
+- **Unrealistic targets are refused out loud** (`feasibility.ts`): five weeks per half band, minimum seven days. Credibility, not a paywall.
+- **The capture screen is always dark**, even in light mode. It is a recording booth, not a page.
+- **Audio capture is not wired yet.** Timing and duration are real; the sample itself arrives with the speaking module. The diagnostic service takes `seconds`, so a real upload drops in without changing the screen.
+
+**Verified.** `tsc --noEmit` clean, `expo lint` clean. Walked signed-out → welcome → sign-up → four onboarding steps → skip diagnostic → result → Today, then Profile → Settings → sign out → welcome. Light theme on the flow; the capture screen is dark by design.
+
+**Still to confirm on device.** Android date dialog, iOS spinner sheet, hardware back through the onboarding stack, and the 30-second capture with Expo Go's haptics.
 
 ### Phase 04 — Navigation + app shell · ✅
 

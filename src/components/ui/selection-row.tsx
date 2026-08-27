@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { cn } from '@/lib/cn';
@@ -6,6 +7,8 @@ import { Text } from './text';
 export type SelectionRowProps = {
   label: string;
   description?: string;
+  /** Rendered before the label — a band numeral, an icon, a duration. */
+  leading?: ReactNode;
   selected: boolean;
   onPress: () => void;
   /** `radio` for one-of-many, `checkbox` for many-of-many. */
@@ -21,6 +24,7 @@ export type SelectionRowProps = {
 export function SelectionRow({
   label,
   description,
+  leading,
   selected,
   onPress,
   mode = 'radio',
@@ -40,6 +44,8 @@ export function SelectionRow({
         className,
       )}
     >
+      {leading}
+
       <View className="flex-1 gap-1">
         <Text variant="h4" tone={selected ? 'onPrimary' : 'default'}>
           {label}

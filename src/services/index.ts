@@ -1,6 +1,7 @@
 import { apiConfig } from './api/config';
-import type { AuthService, ProfileService } from './contracts';
+import type { AuthService, DiagnosticService, ProfileService } from './contracts';
 import { mockAuthService } from './mock/auth';
+import { mockDiagnosticService } from './mock/diagnostic';
 import { mockProfileService } from './mock/profile';
 
 /**
@@ -11,11 +12,13 @@ import { mockProfileService } from './mock/profile';
 type ServiceRegistry = {
   auth: AuthService;
   profile: ProfileService;
+  diagnostic: DiagnosticService;
 };
 
 const mockServices: ServiceRegistry = {
   auth: mockAuthService,
   profile: mockProfileService,
+  diagnostic: mockDiagnosticService,
 };
 
 function resolveServices(): ServiceRegistry {

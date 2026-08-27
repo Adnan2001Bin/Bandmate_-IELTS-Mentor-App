@@ -64,6 +64,13 @@ export const fontFamily = {
  * are tracked out hard because they carry structure rather than content.
  */
 export const typography = {
+  /** The hero number on result screens — a band estimate and nothing else. */
+  displayLg: {
+    fontFamily: fontFamily.display,
+    fontSize: 76,
+    lineHeight: 68,
+    letterSpacing: -3.2,
+  },
   display: {
     fontFamily: fontFamily.display,
     fontSize: 56,
