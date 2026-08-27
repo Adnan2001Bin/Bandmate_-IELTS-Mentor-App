@@ -2,7 +2,7 @@
 
 A personal AI IELTS mentor built with Expo and React Native. There is no backend: every data source is a mock service behind a typed contract.
 
-See `TRACKING.md` for phase-by-phase status, `APP_DESCRIPTION.md` for product requirements, and `DEVELOPMENT_PLAN.md` for the build order.
+Project documentation lives in [`docs/`](docs): [`TRACKING.md`](docs/TRACKING.md) for phase-by-phase status, [`APP_DESCRIPTION.md`](docs/APP_DESCRIPTION.md) for product requirements, [`DEVELOPMENT_PLAN.md`](docs/DEVELOPMENT_PLAN.md) for the build order, [`FRONTEND_STACK.md`](docs/FRONTEND_STACK.md) for the stack, and [`THEME.md`](docs/THEME.md) for theming rules.
 
 ## Running it
 

@@ -19,6 +19,9 @@ export type ColorToken =
   | 'primarySoft'
   | 'primaryText'
   | 'onPrimary'
+  | 'secondary'
+  | 'secondaryPressed'
+  | 'onSecondary'
   | 'inverseSurface'
   | 'onInverse'
   | 'onInverseMuted'
@@ -29,55 +32,94 @@ export type ColorToken =
 
 export type Palette = Record<ColorToken, string>;
 
-/**
- * Modernist is a mono system: there is no green. "Correct" reads as ink, and
- * "wrong / gap / act" reads as accent red. The feedback tokens below map onto
- * that pair rather than introducing hues the design language doesn't have.
- */
-export const light: Palette = {
-  background: '#F3F2F2',
-  surface: '#EAE9E9',
-  card: '#EAE9E9',
-  text: '#201E1D',
-  textMuted: '#605D5D',
-  textSubtle: '#7D7979',
+const ink = {
+  base: '#201E1D',
+  raised: '#2D2B2B',
+  pressed: '#3A3736',
+  border: '#444141',
+  divider: '#555350',
+} as const;
+
+const paper = {
+  base: '#F3F2F2',
+  sunk: '#EAE9E9',
+  pressed: '#DAD8D8',
   border: '#D7D3D3',
   divider: '#9E9D9D',
-  primary: '#EC3013',
-  primaryPressed: '#DD2B0F',
-  primarySoft: '#FFF2EF',
-  primaryText: '#AE1800',
-  onPrimary: '#F3F2F2',
-  inverseSurface: '#201E1D',
-  onInverse: '#F3F2F2',
-  onInverseMuted: '#9B9797',
-  success: '#201E1D',
-  warning: '#AE1800',
-  error: '#EC3013',
-  info: '#605D5D',
+} as const;
+
+const grey = {
+  mid: '#605D5D',
+  soft: '#7D7979',
+  light: '#9B9797',
+} as const;
+
+const accent = {
+  base: '#EC3013',
+  deep: '#DD2B0F',
+  bright: '#FF563C',
+  ink: '#AE1800',
+  tintLight: '#FFF2EF',
+  tintDark: '#4D170E',
+  onDark: '#FF9783',
+} as const;
+
+/**
+ * Modernist is a mono system: there is no green, and no second hue. "Correct"
+ * reads as ink, "wrong / gap / act" reads as accent red, and Secondary is the
+ * ink pair rather than a colour of its own. `inverseSurface` is the same ink
+ * pair expressed at panel scale, which is why both point at the same values.
+ */
+export const light: Palette = {
+  background: paper.base,
+  surface: paper.sunk,
+  card: paper.sunk,
+  text: ink.base,
+  textMuted: grey.mid,
+  textSubtle: grey.soft,
+  border: paper.border,
+  divider: paper.divider,
+  primary: accent.base,
+  primaryPressed: accent.deep,
+  primarySoft: accent.tintLight,
+  primaryText: accent.ink,
+  onPrimary: paper.base,
+  secondary: ink.base,
+  secondaryPressed: ink.pressed,
+  onSecondary: paper.base,
+  inverseSurface: ink.base,
+  onInverse: paper.base,
+  onInverseMuted: grey.light,
+  success: ink.base,
+  warning: accent.ink,
+  error: accent.base,
+  info: grey.mid,
 };
 
 export const dark: Palette = {
-  background: '#201E1D',
-  surface: '#2D2B2B',
-  card: '#2D2B2B',
-  text: '#F3F2F2',
-  textMuted: '#9B9797',
-  textSubtle: '#7D7979',
-  border: '#444141',
-  divider: '#555350',
-  primary: '#EC3013',
-  primaryPressed: '#FF563C',
-  primarySoft: '#4D170E',
-  primaryText: '#FF9783',
-  onPrimary: '#F3F2F2',
-  inverseSurface: '#F3F2F2',
-  onInverse: '#201E1D',
-  onInverseMuted: '#605D5D',
-  success: '#F3F2F2',
-  warning: '#FF9783',
-  error: '#FF563C',
-  info: '#9B9797',
+  background: ink.base,
+  surface: ink.raised,
+  card: ink.raised,
+  text: paper.base,
+  textMuted: grey.light,
+  textSubtle: grey.soft,
+  border: ink.border,
+  divider: ink.divider,
+  primary: accent.base,
+  primaryPressed: accent.bright,
+  primarySoft: accent.tintDark,
+  primaryText: accent.onDark,
+  onPrimary: paper.base,
+  secondary: paper.base,
+  secondaryPressed: paper.pressed,
+  onSecondary: ink.base,
+  inverseSurface: paper.base,
+  onInverse: ink.base,
+  onInverseMuted: grey.mid,
+  success: paper.base,
+  warning: accent.onDark,
+  error: accent.bright,
+  info: grey.light,
 };
 
 export const palettes = { light, dark };

@@ -18,6 +18,9 @@
   --color-primary-soft: 255 242 239;
   --color-primary-text: 174 24 0;
   --color-on-primary: 243 242 242;
+  --color-secondary: 32 30 29;
+  --color-secondary-pressed: 58 55 54;
+  --color-on-secondary: 243 242 242;
   --color-inverse-surface: 32 30 29;
   --color-on-inverse: 243 242 242;
   --color-on-inverse-muted: 155 151 151;
@@ -41,6 +44,9 @@
   --color-primary-soft: 77 23 14;
   --color-primary-text: 255 151 131;
   --color-on-primary: 243 242 242;
+  --color-secondary: 243 242 242;
+  --color-secondary-pressed: 218 216 216;
+  --color-on-secondary: 32 30 29;
   --color-inverse-surface: 243 242 242;
   --color-on-inverse: 32 30 29;
   --color-on-inverse-muted: 96 93 93;

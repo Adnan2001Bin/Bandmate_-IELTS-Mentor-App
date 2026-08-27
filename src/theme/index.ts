@@ -7,5 +7,22 @@ export {
   type ResolvedScheme,
   type ThemeContextValue,
 } from './theme-provider';
-export { duration, fontFamily, iconSize, radius, rule, spacing } from './tokens';
+export {
+  control,
+  duration,
+  elevation,
+  fontFamily,
+  iconSize,
+  layout,
+  opacity,
+  radius,
+  rule,
+  scrimOpacity,
+  spacing,
+  typography,
+  type ControlSize,
+  type IconSize,
+  type Spacing,
+  type TypeVariant,
+} from './tokens';
 export { useTheme } from './use-theme';

@@ -91,7 +91,7 @@ The deck (`Bandmate.dc.html`) applies the **Modernist** design system to a phone
 | --- | --- | --- |
 | 01 | Analyze & plan | ✅ Complete |
 | 02 | Project foundation | ✅ Complete |
-| 03 | Design system + light/dark/system theme | ⬜ Not started |
+| 03 | Design system + light/dark/system theme | ✅ Complete |
 | 04 | Navigation + app shell | ⬜ Not started |
 | 05 | Authentication + onboarding + diagnostic | ⬜ Not started |
 | 06 | Today (home) + Practice hub | ⬜ Not started |
@@ -248,26 +248,29 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done
 ## 6. Component checklist
 
 ### Foundational — Phase 03
-- ⬜ `Screen` (safe areas, status-bar mode, scroll variants)
-- ⬜ `Text` (display / h1–h4 / body / bodySm / kicker / caption / numeral)
-- ⬜ `Button` (primary / secondary / ghost / icon, flush-left label, trailing icon)
-- ⬜ `Card`
-- ⬜ `Rule` (2px section divider, 1px row divider)
-- ⬜ `Tag`
-- ⬜ `Input` / `TextArea`
-- ⬜ `SelectionRow` (radio-style option row, accent-filled when selected)
-- ⬜ `SegmentedControl`
-- ⬜ `ProgressBar` (with optional target rule marker)
-- ⬜ `StepProgress` (segmented top bar)
-- ⬜ `Monogram` (Mira's red "M" and user initials)
-- ⬜ `ListRow`
-- ⬜ `StatCell` (numeral + kicker, in a ruled grid)
-- ⬜ `Dialog`
-- ⬜ `BottomSheet`
-- ⬜ `Skeleton`
-- ⬜ `EmptyState`
-- ⬜ `ErrorState`
-- ⬜ `InkPanel` (inverted emphasis block)
+All in `src/components/ui`, exported from one barrel.
+
+- ✅ `Screen` (safe areas, scroll variant, standard gutter)
+- ✅ `Text` (display / displaySm / numeral / h1–h4 / body / bodySm / label / kicker / caption)
+- ✅ `Button` (primary / secondary / outline / ghost, flush-left label, leading + trailing icon, loading, disabled)
+- ✅ `Card` (outlined / filled, optionally pressable)
+- ✅ `Rule` (1px row, 2px section, 4px emphasis, accent option)
+- ✅ `Tag` (neutral / accent / ink / outline)
+- ✅ `Input` / `TextArea` (label, hint, error, focus rule)
+- ✅ `SelectionRow` (radio / checkbox, accent-filled when selected)
+- ✅ `SegmentedControl` (generic over the option union)
+- ✅ `ProgressBar` (animated fill, optional target rule marker)
+- ✅ `StepProgress` (segmented top bar)
+- ✅ `Monogram` (Mira's red "M" and user initials, 3 sizes)
+- ✅ `ListRow` (icon, description, value or chevron, custom accessory)
+- ✅ `StatCell` (numeral + kicker, for ruled grids)
+- ✅ `Dialog` (scrim, stacked actions)
+- ✅ `BottomSheet` (slide-up, drag-to-dismiss, safe-area aware)
+- ✅ `Skeleton` (opacity pulse)
+- ✅ `EmptyState`
+- ✅ `ErrorState` (pairs with `ServiceError`, optional retry)
+- ✅ `InkPanel` (inverted emphasis block)
+- ❌ `ProgressRing` — **not built.** Listed in `DEVELOPMENT_PLAN.md`, but the design language expresses progress as bars and rules and contains no circular geometry. Add it only if a screen genuinely needs one.
 
 ### IELTS-specific — Phases 06–09
 - ⬜ `BandScore` (display numeral + delta)
@@ -378,20 +381,21 @@ Rule: **no data literals inside screens.** Screens read from hooks; hooks read f
 
 ## 9. Theme checklist
 
-- ✅ Semantic color tokens defined once (`src/theme/palette.ts`, 20 tokens)
+- ✅ Semantic color tokens defined once (`src/theme/palette.ts`, 23 tokens)
 - ✅ Light palette mapped
 - ✅ Dark palette mapped
 - ✅ Appearance modes: Light / Dark / **System (default)**
 - ✅ Choice persisted (AsyncStorage via `src/lib/storage.ts`)
 - ✅ Theme available to NativeWind classes and to imperative styles (one generated source)
-- ⬜ Typography scale centralized *(Phase 03 — font families wired, scale pending)*
+- ✅ Typography scale centralized (12 variants in `tokens.ts`)
 - ✅ Spacing scale centralized
 - ✅ Radius scale centralized (all 0)
-- ⬜ Shadow steps centralized *(Phase 03)*
+- ✅ Elevation centralized (`flat` and `overlay` only — the system is deliberately shadowless except for floating surfaces)
+- ✅ Control sizing centralized (`sm` / `md` / `lg`, `minTouch` 44)
 - ✅ Icon size scale centralized
 - ✅ Navigation chrome theme-aware (headers, card background, status bar)
 - ✅ No hard-coded hex outside the palette file
-- ⬜ Every foundational component verified in both themes *(Phase 03)*
+- ✅ Every foundational component rendered in both themes via the Phase 03 gallery
 
 ---
 
@@ -436,6 +440,28 @@ Filled in from Phase 04 onward; verified in full at Phase 12.
 ---
 
 ## 12. Phase log
+
+### Phase 03 — Design system + theme · ✅
+
+**Tokens.** The type scale is 12 variants (`display`, `displaySm`, `numeral`, `h1`–`h4`, `body`, `bodySm`, `label`, `kicker`, `caption`), each a complete family / size / line-height / tracking set. Headings track in, kickers track out hard. Also added: `elevation`, `control` sizing, `layout` gutters and `opacity` states.
+
+**Colour.** Palette rebuilt on named ink / paper / grey / accent constants, so relationships are visible in the source instead of repeated hex. Added the `secondary` role `THEME.md` requires — in a mono system that is the ink pair, and the file says so rather than inventing a second hue. 23 tokens across both schemes.
+
+**Components.** 20 primitives in `src/components/ui`, one barrel export. Colour always arrives through a semantic class or `useTheme()`; no component contains a hex value.
+
+**Decisions made during the build**
+
+- **`className` cannot be a function.** NativeWind types it as a string, so pressed states use the `active:` variant instead of Pressable's render-prop form. This typechecks but the failure mode is silent at runtime, so it is worth remembering.
+- **Animated components take `style`, not `className`.** NativeWind's class interop does not extend to Reanimated's `Animated.View`, so `ProgressBar`, `Skeleton`, `Dialog` and `BottomSheet` read colours from `useTheme()`. This is exactly what that hook exists for.
+- **`ProgressRing` not built**, see the component checklist.
+- **Elevation is two steps, not a ramp.** Flat for everything on the page; a real shadow only for dialogs and sheets.
+- Markdown docs moved to `docs/`; `README.md` stays at the repository root by convention.
+
+**Verified.** `tsc --noEmit` clean, `expo lint` clean, Android Metro bundle produced (3410 modules).
+
+**Not done, by design.** No feature screens. `src/app/index.tsx` is now a gallery that renders every primitive in one scroll so both themes can be checked in a single pass; Phase 04 replaces it with the real app shell.
+
+**Still to confirm on device.** Walk the gallery in light and dark: type hierarchy reads correctly, button and row press states are visible in both, the dialog scrim and the sheet's drag-to-dismiss behave, and the progress bar animates rather than jumping.
 
 ### Phase 02 — Project foundation · ✅
 
