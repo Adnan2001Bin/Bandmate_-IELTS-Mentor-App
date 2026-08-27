@@ -2,9 +2,9 @@
 
 Living document. Updated at the end of every phase.
 
-- **Current phase:** 01 — Analyze & Plan
-- **Status:** Complete (analysis only — no application code written yet)
-- **Next phase:** 02 — Project Foundation (do not start without an explicit prompt)
+- **Current phase:** 02 — Project Foundation
+- **Status:** Complete — typecheck, lint and an Android Metro bundle all pass
+- **Next phase:** 03 — Design System + Theme (do not start without an explicit prompt)
 
 ---
 
@@ -90,7 +90,7 @@ The deck (`Bandmate.dc.html`) applies the **Modernist** design system to a phone
 | # | Phase | Status |
 | --- | --- | --- |
 | 01 | Analyze & plan | ✅ Complete |
-| 02 | Project foundation | ⬜ Not started |
+| 02 | Project foundation | ✅ Complete |
 | 03 | Design system + light/dark/system theme | ⬜ Not started |
 | 04 | Navigation + app shell | ⬜ Not started |
 | 05 | Authentication + onboarding + diagnostic | ⬜ Not started |
@@ -341,7 +341,7 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done
 ## 8. Mock data & services checklist
 
 ### Service interfaces (mock now, API later)
-- ⬜ `authService`
+- ✅ `authService` — contract + mock, session persisted to device storage
 - ⬜ `onboardingService`
 - ⬜ `planService` (today's plan, plan changes)
 - ⬜ `listeningService`
@@ -355,10 +355,10 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done
 - ⬜ `weaknessService`
 - ⬜ `mistakeService`
 - ⬜ `mentorService` (Mira chat + contextual responses)
-- ⬜ `profileService`
+- ✅ `profileService` — contract + mock
 
 ### Mock data sets
-- ⬜ User profile + goals + streak + XP
+- ✅ User profile + goals + streak + XP
 - ⬜ Daily plan + session history
 - ⬜ Listening tests (sections 1–4, all required question types, transcripts)
 - ⬜ Reading passages (Academic + General Training, all required question types)
@@ -378,20 +378,20 @@ Rule: **no data literals inside screens.** Screens read from hooks; hooks read f
 
 ## 9. Theme checklist
 
-- ⬜ Semantic color tokens defined once
-- ⬜ Light palette mapped
-- ⬜ Dark palette mapped
-- ⬜ Appearance modes: Light / Dark / **System (default)**
-- ⬜ Choice persisted
-- ⬜ Theme available to NativeWind classes and to imperative styles
-- ⬜ Typography scale centralized
-- ⬜ Spacing scale centralized
-- ⬜ Radius scale centralized (all 0)
-- ⬜ Shadow steps centralized
-- ⬜ Icon size scale centralized
-- ⬜ Navigation chrome theme-aware (tab bar, headers, status bar)
-- ⬜ No hard-coded hex outside the token file
-- ⬜ Every foundational component verified in both themes
+- ✅ Semantic color tokens defined once (`src/theme/palette.ts`, 20 tokens)
+- ✅ Light palette mapped
+- ✅ Dark palette mapped
+- ✅ Appearance modes: Light / Dark / **System (default)**
+- ✅ Choice persisted (AsyncStorage via `src/lib/storage.ts`)
+- ✅ Theme available to NativeWind classes and to imperative styles (one generated source)
+- ⬜ Typography scale centralized *(Phase 03 — font families wired, scale pending)*
+- ✅ Spacing scale centralized
+- ✅ Radius scale centralized (all 0)
+- ⬜ Shadow steps centralized *(Phase 03)*
+- ✅ Icon size scale centralized
+- ✅ Navigation chrome theme-aware (headers, card background, status bar)
+- ✅ No hard-coded hex outside the palette file
+- ⬜ Every foundational component verified in both themes *(Phase 03)*
 
 ---
 
@@ -413,8 +413,10 @@ Rule: **no data literals inside screens.** Screens read from hooks; hooks read f
 
 Filled in from Phase 04 onward; verified in full at Phase 12.
 
-- ⬜ TypeScript passes with no errors
-- ⬜ Lint passes
+- ✅ TypeScript passes with no errors
+- ✅ Lint passes
+- ✅ Metro produces an Android bundle
+- ✅ Tailwind compiles the palette to `:root` / `.dark:root` variables
 - ⬜ Every screen reachable; no dead ends
 - ⬜ Back navigation correct on iOS and Android
 - ⬜ Light theme verified on every screen
@@ -434,6 +436,35 @@ Filled in from Phase 04 onward; verified in full at Phase 12.
 ---
 
 ## 12. Phase log
+
+### Phase 02 — Project foundation · ✅
+
+Scaffolded on **Expo SDK 54** (React 19.1, React Native 0.81.5, Expo Router 6, typed routes and the React Compiler both on).
+
+**Architecture**
+
+```
+Screen → hook → services.<domain> → contract → mock implementation → mocks/
+```
+
+`src/services/index.ts` is the only module that chooses between a mock and HTTP, driven by `EXPO_PUBLIC_API_URL`. Screens never import from `mocks/` and never call `fetch`. `ServiceError` normalises every failure into one shape so error and retry UI stays generic. Folder layout is documented in `README.md`.
+
+**Theme infrastructure.** `src/theme/palette.ts` holds all 20 semantic tokens for both schemes and is the single source of truth. `npm run theme` regenerates `src/theme/global.css` from it, so the NativeWind classes and the imperative `useTheme()` values cannot drift. Appearance is Light / Dark / System with System as the default, persisted through `src/lib/storage.ts`, and the splash screen is held until theme, fonts and session have all settled.
+
+**Decisions made during the build**
+
+- Radius tokens exist but every step is `0px`, per the design system.
+- Archivo is imported per weight (`@expo-google-fonts/archivo/400Regular`) rather than from the package root — the root re-exports all eighteen files and Metro was bundling ~2.2MB of unused fonts, including italics. Now five files, ~600KB.
+- **SDK 54, not the latest.** Expo Go runs exactly one SDK, and the Play Store only serves Expo Go 54.x on the target device — newer builds raise the minimum Android version. The project was moved from SDK 57 down to 54 so it runs in stock Expo Go with no dev build. Revisit if we adopt a custom dev client.
+- `@react-navigation/native` is a direct dependency. Expo Router 6 does not re-export `ThemeProvider` / `DarkTheme` / `DefaultTheme` (that arrived in a later version), and depending on a transitive copy is fragile.
+- `babel-preset-expo` is an explicit devDependency. npm nested it under `node_modules/expo/`, and Babel resolves presets relative to the root `babel.config.js`, so the bundle failed with "Cannot find module 'babel-preset-expo'" until it was hoisted.
+- Tailwind is pinned to v3 because NativeWind 4 does not support Tailwind v4.
+
+**Verified.** `tsc --noEmit` clean, `expo lint` clean, `expo-doctor` 18/18, Android Metro bundle produced (1492 modules), and the compiled Tailwind output confirms `--css-interop-darkMode: class dark` with light variables on `:root` and dark on `.dark:root`.
+
+**Not done, by design.** No feature screens. `src/app/index.tsx` is a temporary foundation-check screen that exercises the theme, fonts, service layer and query client in one place, and Phase 04 replaces it with the real app shell.
+
+**Still to confirm on device.** Run `npm start` and check that switching Light / Dark / System repaints, that Archivo renders, and that the mock profile loads after its simulated latency.
 
 ### Phase 01 — Analyze & plan · ✅
 Read `APP_DESCRIPTION.md`, `FRONTEND_STACK.md`, `THEME.md`, the Modernist design system, the Bandmate deck, and the iOS/Android frames. Produced the design direction, token proposal, navigation architecture, and the screen / component / feature / mock-data / theme / testing checklists above. Two decisions settled — no Gluestack, and Profile as the fifth tab with Progress inside it; two deferred (paywall, league). **No application code written.**
