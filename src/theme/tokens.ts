@@ -31,6 +31,8 @@ export const rule = {
   section: 2,
   row: 1,
   emphasis: 4,
+  /** The accent rule marking the active tab. */
+  tab: 3,
 } as const;
 
 export const iconSize = {
@@ -134,6 +136,13 @@ export const typography = {
     fontSize: 12,
     lineHeight: 16,
     letterSpacing: 0.1,
+  },
+  tabLabel: {
+    fontFamily: fontFamily.bodySemibold,
+    fontSize: 10,
+    lineHeight: 12,
+    letterSpacing: 0.8,
+    textTransform: 'uppercase',
   },
 } as const satisfies Record<string, TextStyle>;
 

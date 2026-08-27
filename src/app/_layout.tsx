@@ -50,7 +50,10 @@ function RootNavigator() {
       <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
       <Stack
         screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}
-      />
+      >
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="(modals)" options={{ presentation: 'modal' }} />
+      </Stack>
     </NavigationThemeProvider>
   );
 }

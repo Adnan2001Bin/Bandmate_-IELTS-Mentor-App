@@ -92,7 +92,7 @@ The deck (`Bandmate.dc.html`) applies the **Modernist** design system to a phone
 | 01 | Analyze & plan | ✅ Complete |
 | 02 | Project foundation | ✅ Complete |
 | 03 | Design system + light/dark/system theme | ✅ Complete |
-| 04 | Navigation + app shell | ⬜ Not started |
+| 04 | Navigation + app shell | ✅ Complete |
 | 05 | Authentication + onboarding + diagnostic | ⬜ Not started |
 | 06 | Today (home) + Practice hub | ⬜ Not started |
 | 07A | Listening | ⬜ Not started |
@@ -124,22 +124,25 @@ Progress lives **inside Profile** rather than as its own tab (decision §10.2). 
 
 Cutting across all five: **onboarding + diagnostic** runs once before the tabs exist.
 
-Route groups:
+Route groups — ✅ built in Phase 04 except where noted:
 
 ```
-app/
-  (auth)/          welcome · sign-in · sign-up
-  (onboarding)/    steps · voice diagnostic · diagnostic sections · result
-  (tabs)/          today · practice · mock · mira · profile
-  practice/        listening/ reading/ writing/ speaking/ vocabulary/ grammar/
-  mock/            lobby · runner · report
-  progress/        forecast · history · weaknesses · league
-  profile/         goals · appearance · notifications · account
-  mistakes/        list · detail
-  (modals)/        plan-change · submit-confirm · explanation · filters
+src/app/
+  _layout.tsx        root stack · theme · fonts · session hydration
+  +not-found.tsx     ✅
+  design-system.tsx  ✅ dev-only gallery, not in the tab bar
+  (tabs)/            ✅ index (Today) · practice · mock · mira · profile
+  practice/          ✅ listening · reading · writing · speaking · vocabulary · grammar
+  mock/              ✅ lobby · report          (runner added in Phase 09)
+  progress/          ✅ index · history · weaknesses   (league deferred, §10.4)
+  profile/           ✅ goals · settings
+  mistakes/          ✅ index                   (detail added in Phase 09)
+  (modals)/          ✅ plan-change             (submit-confirm · explanation · filters as needed)
+  (auth)/            ⬜ Phase 05
+  (onboarding)/      ⬜ Phase 05
 ```
 
-Each feature owns its own route folder — no single giant routing file.
+Each feature owns its own `_layout.tsx` — no single giant routing file. Every route above is typed: `expo-router`'s generated `Href` union is what validates each `router.push`, so a broken link fails at `tsc` rather than at runtime.
 
 ---
 
@@ -271,6 +274,13 @@ All in `src/components/ui`, exported from one barrel.
 - ✅ `ErrorState` (pairs with `ServiceError`, optional retry)
 - ✅ `InkPanel` (inverted emphasis block)
 - ❌ `ProgressRing` — **not built.** Listed in `DEVELOPMENT_PLAN.md`, but the design language expresses progress as bars and rules and contains no circular geometry. Add it only if a screen genuinely needs one.
+
+### Shell — Phase 04
+In `src/components/layout`.
+
+- ✅ `AppHeader` (kicker + title, optional back, optional trailing action, display / compact)
+- ✅ `AppTabBar` (2px top rule, 3px accent rule over the active tab, haptic on change)
+- ✅ `Placeholder` (a route that exists so navigation can be built before its feature — every one names the phase that replaces it)
 
 ### IELTS-specific — Phases 06–09
 - ⬜ `BandScore` (display numeral + delta)
@@ -440,6 +450,30 @@ Filled in from Phase 04 onward; verified in full at Phase 12.
 ---
 
 ## 12. Phase log
+
+### Phase 04 — Navigation + app shell · ✅
+
+**Structure.** Five tabs — Today · Practice · Mock · Mira · Profile — in the deck's order, with Progress reached through Profile per decision §10.2. Each feature area owns a route folder and its own `_layout.tsx`. Modals are a route group, so `presentation: 'modal'` is declared once instead of at every call site.
+
+**Headers are ours, not the navigator's.** `headerShown` is off everywhere. The design system's header is a typographic block above a 2px rule, which a native stack header cannot express, so `AppHeader` renders it and screens compose it directly.
+
+**Tab bar** follows the deck exactly: a 2px rule across the top and a 3px accent rule above the active tab. No pill, no fill, no shadow. Tab changes fire a selection haptic.
+
+**Decisions made during the build**
+
+- **Tab bar props are typed structurally.** `AppTabBar` declares only the `state` and `navigation` fields it uses instead of importing `BottomTabBarProps`, keeping `@react-navigation/bottom-tabs` a transitive dependency. TypeScript still checks the call site through parameter contravariance.
+- **The active tab label uses `primaryText`, not `primary`.** The deck tints both icon and label with the accent, but accent red on paper is about 3.9:1, under the 4.5:1 that 10px text needs. The icon and the rule carry the accent; the label uses the deeper red so it stays legible in both schemes.
+- **Appearance moved to Profile → Settings** and is real, not a placeholder, because Phase 04's own test list includes theme switching and the gallery that previously hosted it is now dev-only.
+- **Android hardware back returns to Today** (`backBehavior="initialRoute"`) rather than exiting from a secondary tab.
+- **The gallery survives as `/design-system`**, reachable only from Profile. It is a development tool, not a product screen, and should be deleted before release.
+
+**Verified.** `tsc --noEmit` clean, `expo lint` clean, Android Metro bundle produced (3445 modules). Typed routes are the real proof here: every `router.push` in the shell resolves against the generated `Href` union, so the whole route tree is checked at compile time.
+
+**Worth knowing.** `expo export` does *not* regenerate `.expo/types/router.d.ts`; only the dev server does. After adding routes, run `npm start` once before trusting a typecheck, or stale route types will produce confusing errors.
+
+**Not done, by design.** No feature content. `(auth)` and `(onboarding)` arrive in Phase 05, and the mock runner, mistake detail and remaining modals arrive with their own phases.
+
+**Still to confirm on device.** Move between all five tabs, push into a practice area and come back with both the header control and the Android hardware button, open the plan-change modal and dismiss it, switch appearance in Profile → Settings and confirm the tab bar repaints, and check the tab bar clears the gesture bar on a device with no physical buttons.
 
 ### Phase 03 — Design system + theme · ✅
 
