@@ -1,39 +1,65 @@
-import { useRouter, type Href } from 'expo-router';
-import { BookOpen, Headphones, Languages, Mic, PenLine, Ruler } from 'lucide-react-native';
+import { useRouter } from 'expo-router';
+import { BookMarked } from 'lucide-react-native';
 import { View } from 'react-native';
 
+import { SkillCard } from '@/components/ielts';
 import { AppHeader } from '@/components/layout';
-import { ListRow, Rule, Screen } from '@/components/ui';
-import type { IconComponent } from '@/components/ui';
-
-const AREAS: readonly { href: Href; label: string; description: string; icon: IconComponent }[] = [
-  { href: '/practice/listening', label: 'Listening', description: 'Sections, accents, question types', icon: Headphones },
-  { href: '/practice/reading', label: 'Reading', description: 'Passages and question types', icon: BookOpen },
-  { href: '/practice/writing', label: 'Writing', description: 'Task 1 and Task 2', icon: PenLine },
-  { href: '/practice/speaking', label: 'Speaking', description: 'Parts 1 to 3, live with Mira', icon: Mic },
-  { href: '/practice/vocabulary', label: 'Vocabulary', description: 'Topic sets and review', icon: Languages },
-  { href: '/practice/grammar', label: 'Grammar', description: 'Targeted lessons and drills', icon: Ruler },
-];
+import { ErrorState, ListRow, Rule, Screen, Skeleton } from '@/components/ui';
+import { PRACTICE_HREF, usePracticeHub } from '@/features/practice/routes';
 
 export default function PracticeScreen() {
   const router = useRouter();
+  const { data, isPending, isError, refetch } = usePracticeHub();
+
+  if (isPending) {
+    return (
+      <Screen>
+        <AppHeader title="Practice" kicker="Choose your own" />
+        <View className="gap-3 px-6 pt-4">
+          <Skeleton height={72} />
+          <Skeleton height={72} />
+          <Skeleton height={72} />
+        </View>
+      </Screen>
+    );
+  }
+
+  if (isError || !data) {
+    return (
+      <Screen>
+        <AppHeader title="Practice" kicker="Choose your own" />
+        <View className="px-6 pt-6">
+          <ErrorState onRetry={() => void refetch()} />
+        </View>
+      </Screen>
+    );
+  }
 
   return (
     <Screen scroll>
       <AppHeader title="Practice" kicker="Choose your own" />
 
       <View className="px-6">
-        {AREAS.map((area, index) => (
-          <View key={area.label}>
+        {data.items.map((item, index) => (
+          <View key={item.area}>
             {index > 0 ? <Rule /> : null}
-            <ListRow
-              label={area.label}
-              description={area.description}
-              icon={area.icon}
-              onPress={() => router.push(area.href)}
+            <SkillCard
+              label={item.label}
+              description={item.description}
+              band={item.band}
+              status={item.status}
+              onPress={() => router.push(PRACTICE_HREF[item.area])}
             />
           </View>
         ))}
+        <Rule weight="section" />
+        <ListRow
+          label="Mistakes"
+          description="Everything you got wrong, by skill"
+          icon={BookMarked}
+          value={String(data.mistakeCount)}
+          onPress={() => router.push('/mistakes')}
+        />
         <Rule weight="section" />
       </View>
     </Screen>

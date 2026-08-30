@@ -2,9 +2,9 @@
 
 Living document. Updated at the end of every phase.
 
-- **Current phase:** 05 — Authentication + onboarding + diagnostic
-- **Status:** Complete — typecheck, lint, and a signed-out-to-Today walkthrough all pass
-- **Next phase:** 06 — Home + Practice hub (do not start without an explicit prompt)
+- **Current phase:** 06 — Today + Practice hub
+- **Status:** Complete — typecheck, lint, and a Today → session → debrief → Practice walkthrough all pass
+- **Next phase:** 07A — Listening (do not start without an explicit prompt)
 
 ---
 
@@ -94,7 +94,7 @@ The deck (`Bandmate.dc.html`) applies the **Modernist** design system to a phone
 | 03 | Design system + light/dark/system theme | ✅ Complete |
 | 04 | Navigation + app shell | ✅ Complete |
 | 05 | Authentication + onboarding + diagnostic | ✅ Complete |
-| 06 | Today (home) + Practice hub | ⬜ Not started |
+| 06 | Today (home) + Practice hub | ✅ Complete |
 | 07A | Listening | ⬜ Not started |
 | 07B | Reading | ⬜ Not started |
 | 07C | Writing | ⬜ Not started |
@@ -133,6 +133,7 @@ src/app/
   design-system.tsx  ✅ dev-only gallery, not in the tab bar
   (tabs)/            ✅ index (Today) · practice · mock · mira · profile
   practice/          ✅ listening · reading · writing · speaking · vocabulary · grammar
+  session/           ✅ index (runner shell) · debrief     (skill modules are Phase 07)
   mock/              ✅ lobby · report          (runner added in Phase 09)
   progress/          ✅ index · history · weaknesses   (league deferred, §10.4)
   profile/           ✅ goals · settings
@@ -164,12 +165,12 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done
 - ✅ Plan built / completion
 
 ### Today — Phase 06
-- ⬜ Today dashboard — Mira's headline, today's session (ink block), forecast + mocks stats, Mira's flag
-- ⬜ Session runner shell (chains today's tasks)
-- ⬜ Session debrief
+- ✅ Today dashboard — Mira's headline, today's session (ink block), forecast + mocks stats, Mira's flag
+- ✅ Session runner shell (chains today's tasks)
+- ✅ Session debrief
 
 ### Practice — Phase 06
-- ⬜ Practice hub — six skills + saved mistakes
+- ✅ Practice hub — six skills + saved mistakes
 
 ### Listening — Phase 07A
 - ⬜ Test selection (sections, difficulty, timed)
@@ -291,13 +292,13 @@ In `src/components/layout`.
 - ✅ `SkillBar` (now vs. target rule; accent fill when the gap is a full band)
 
 ### IELTS-specific — Phases 06–09
-- ⬜ `BandScore` (display numeral + delta)
+- ✅ `BandScore` (display numeral + delta)
 - ✅ `SkillBar` (now vs. target rule) — built in Phase 05 for the diagnostic result
-- ⬜ `SkillCard`
-- ⬜ `SessionCard`
-- ⬜ `MiraNote` (accent left rule + heading + body)
+- ✅ `SkillCard`
+- ✅ `SessionCard`
+- ✅ `MiraNote` (accent left rule + heading + body) — also exported as `RecommendationCard`
 - ⬜ `CriterionRow`
-- ⬜ `PlanTaskRow`
+- ✅ `PlanTaskRow`
 - ⬜ `AudioPlayer`
 - ⬜ `TestTimer`
 - ⬜ `TestProgress`
@@ -322,9 +323,10 @@ In `src/components/layout`.
 - ⬜ `GrammarQuestion`
 - ⬜ `ExplanationCard`
 - ⬜ `TrajectoryChart` (bar columns, dashed = projected)
-- ⬜ `StreakStrip`
+- ✅ `StreakStrip`
 - ⬜ `LeagueRow`
-- ⬜ `PlanChangeDialog`
+- ✅ `PracticeCard` / `ProgressCard` / `PracticeStatusTag`
+- ✅ Plan-change modal (`(modals)/plan-change`) — skip remaining or swap the featured brief from the bench. Not a `Dialog` primitive.
 
 ---
 
@@ -333,8 +335,8 @@ In `src/components/layout`.
 - ✅ Mock authentication + session persistence
 - ✅ Onboarding capture: target band, test date, test type, study goal, daily minutes
 - ✅ Voice diagnostic + estimated starting band
-- ⬜ Adaptive daily plan (mock engine: weakest skill gets the most minutes)
-- ⬜ Today's session chaining and debrief
+- ✅ Adaptive daily plan (mock engine: weakest skill gets the most minutes)
+- ✅ Today's session chaining and debrief
 - ⬜ Listening practice + results + transcript
 - ⬜ Reading practice + results + explanations
 - ⬜ Writing: typed submission, auto-save, draft recovery, AI evaluation, sentence feedback
@@ -364,7 +366,8 @@ In `src/components/layout`.
 ### Service interfaces (mock now, API later)
 - ✅ `authService` — contract + mock, session persisted; `completeOnboarding` flips the route-guard flag
 - ✅ `diagnosticService` — voice sample / skip estimate; mock returns the §17 starting bands
-- ⬜ `planService` (today's plan, plan changes)
+- ✅ `planService` (today's plan, plan changes, session debrief)
+- ✅ `practiceService` (Practice hub — six skills + mistake count)
 - ⬜ `listeningService`
 - ⬜ `readingService`
 - ⬜ `writingService` (tasks, drafts, evaluation, OCR)
@@ -380,7 +383,7 @@ In `src/components/layout`.
 
 ### Mock data sets
 - ✅ User profile + goals + streak + XP
-- ⬜ Daily plan + session history
+- ✅ Daily plan (today's chain, bench, debrief). Session history remains Phase 09.
 - ⬜ Listening tests (sections 1–4, all required question types, transcripts)
 - ⬜ Reading passages (Academic + General Training, all required question types)
 - ⬜ Writing tasks (Task 1 Academic + GT letters, Task 2 essay types) + model evaluations
@@ -458,6 +461,28 @@ Filled in from Phase 04 onward; verified in full at Phase 12.
 ---
 
 ## 12. Phase log
+
+### Phase 06 — Today + Practice hub · ✅
+
+**Today is Mira talking, then one decision.** Deck 3c (mentor-first): day/streak and countdown, a direct headline, an inverted session card, forecast + mocks as proof, and one flagged fix. Current/target band live in the headline and the forecast, not as extra cards.
+
+**The session runner is a chain, not a skill module.** Completing a brief marks it done and advances; the last one opens debrief. Listening / reading / writing / speaking drills stay Phase 07. Plan-change is a real modal: swap the featured brief from the bench, or skip the rest of today.
+
+**Practice is choose-your-own.** Six `SkillCard`s with band + status, plus a mistakes row into the Phase 09 placeholder. Screens read `planService` / `practiceService` through hooks — no literals in the routes.
+
+**Decisions made during the build**
+
+- **Deck 3c, not 3a or 3b.** The path view and the instrument panel both bury the day's work. Mira's line plus an ink session card is the product.
+- **`RecommendationCard` is `MiraNote`.** Same 4px accent rule; two names, one component.
+- **Plan-change is a route, not a `Dialog`.** It needs a list and a skip, which a two-button dialog cannot hold.
+- **Only one "today's work" tag on the hub.** Small gaps stay "below target" so Practice does not compete with Today.
+- **Typed routes name the runner `/session/index`.** Expo sometimes emits that instead of `/session`; both resolve at runtime.
+
+**Verified.** `tsc --noEmit` clean, `expo lint` clean. Walked sign-in → Today (headline, 18-min session, forecast, flag) → plan-change swap (reading TFNG, 20 min) → session chain (1/3 → 2/3 → 3/3) → debrief (3/3, XP, streak, named pattern) → Practice hub → speaking placeholder → mistakes placeholder → Today empty state → flag CTA to vocabulary.
+
+**Not done, by design.** No listening/reading/writing/speaking question runners. Those are 07A–D.
+
+**Still to confirm on device.** Ink session card and tab bar on a physical phone, modal sheet on iOS, and hardware back from `/session` to Today.
 
 ### Phase 05 — Authentication + onboarding + diagnostic · ✅
 

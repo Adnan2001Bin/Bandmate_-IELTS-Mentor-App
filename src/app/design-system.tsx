@@ -28,7 +28,7 @@ import {
   Text,
   TextArea,
 } from '@/components/ui';
-import { queryKeys } from '@/lib/query-client';
+import { queryKeys } from '@/lib/query-keys';
 import { services } from '@/services';
 import { useTheme, type AppearanceMode } from '@/theme';
 
