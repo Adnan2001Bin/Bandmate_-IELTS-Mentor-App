@@ -18,6 +18,7 @@ import {
 } from '@/components/ui';
 import { useTodayPlan } from '@/features/plan/use-today-plan';
 import { PRACTICE_HREF } from '@/features/practice/routes';
+import { SESSION_HREF } from '@/features/listening';
 
 export default function TodayScreen() {
   const router = useRouter();
@@ -81,7 +82,7 @@ export default function TodayScreen() {
           kicker={`Today's session — ${plan.totalMinutes} min`}
           title={next.title}
           tags={next.tags}
-          onStart={() => router.push('/session/index')}
+          onStart={() => router.push(SESSION_HREF)}
           onMore={() => router.push('/plan-change')}
         />
       ) : (

@@ -2,12 +2,14 @@ import { apiConfig } from './api/config';
 import type {
   AuthService,
   DiagnosticService,
+  ListeningService,
   PlanService,
   PracticeService,
   ProfileService,
 } from './contracts';
 import { mockAuthService } from './mock/auth';
 import { mockDiagnosticService } from './mock/diagnostic';
+import { mockListeningService } from './mock/listening';
 import { mockPlanService } from './mock/plan';
 import { mockPracticeService } from './mock/practice';
 import { mockProfileService } from './mock/profile';
@@ -23,6 +25,7 @@ type ServiceRegistry = {
   diagnostic: DiagnosticService;
   plan: PlanService;
   practice: PracticeService;
+  listening: ListeningService;
 };
 
 const mockServices: ServiceRegistry = {
@@ -31,6 +34,7 @@ const mockServices: ServiceRegistry = {
   diagnostic: mockDiagnosticService,
   plan: mockPlanService,
   practice: mockPracticeService,
+  listening: mockListeningService,
 };
 
 function resolveServices(): ServiceRegistry {

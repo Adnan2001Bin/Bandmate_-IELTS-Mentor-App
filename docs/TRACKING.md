@@ -2,9 +2,9 @@
 
 Living document. Updated at the end of every phase.
 
-- **Current phase:** 06 — Today + Practice hub
-- **Status:** Complete — typecheck, lint, and a Today → session → debrief → Practice walkthrough all pass
-- **Next phase:** 07A — Listening (do not start without an explicit prompt)
+- **Current phase:** 07A — Listening
+- **Status:** Complete — typecheck, lint, and a library → brief → drill walkthrough all pass
+- **Next phase:** 07B — Reading (do not start without an explicit prompt)
 
 ---
 
@@ -95,7 +95,7 @@ The deck (`Bandmate.dc.html`) applies the **Modernist** design system to a phone
 | 04 | Navigation + app shell | ✅ Complete |
 | 05 | Authentication + onboarding + diagnostic | ✅ Complete |
 | 06 | Today (home) + Practice hub | ✅ Complete |
-| 07A | Listening | ⬜ Not started |
+| 07A | Listening | ✅ Complete |
 | 07B | Reading | ⬜ Not started |
 | 07C | Writing | ⬜ Not started |
 | 07D | Speaking | ⬜ Not started |
@@ -132,7 +132,7 @@ src/app/
   +not-found.tsx     ✅
   design-system.tsx  ✅ dev-only gallery, not in the tab bar
   (tabs)/            ✅ index (Today) · practice · mock · mira · profile
-  practice/          ✅ listening · reading · writing · speaking · vocabulary · grammar
+  practice/          ✅ listening (library · brief · run · result · review) · reading · writing · speaking · vocabulary · grammar
   session/           ✅ index (runner shell) · debrief     (skill modules are Phase 07)
   mock/              ✅ lobby · report          (runner added in Phase 09)
   progress/          ✅ index · history · weaknesses   (league deferred, §10.4)
@@ -173,12 +173,12 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done
 - ✅ Practice hub — six skills + saved mistakes
 
 ### Listening — Phase 07A
-- ⬜ Test selection (sections, difficulty, timed)
-- ⬜ Instructions
-- ⬜ Player + question runner
-- ⬜ Results / score / estimated band
-- ⬜ Answer review with explanation
-- ⬜ Transcript
+- ✅ Test selection (sections, difficulty, timed)
+- ✅ Instructions
+- ✅ Player + question runner
+- ✅ Results / score / estimated band
+- ✅ Answer review with explanation
+- ✅ Transcript
 
 ### Reading — Phase 07B
 - ⬜ Passage / test selection (Academic + General Training)
@@ -299,13 +299,13 @@ In `src/components/layout`.
 - ✅ `MiraNote` (accent left rule + heading + body) — also exported as `RecommendationCard`
 - ⬜ `CriterionRow`
 - ✅ `PlanTaskRow`
-- ⬜ `AudioPlayer`
-- ⬜ `TestTimer`
-- ⬜ `TestProgress`
-- ⬜ `QuestionCard`
-- ⬜ `AnswerOption` (idle / selected / correct / wrong / dimmed)
-- ⬜ `QuestionNavigator`
-- ⬜ `ResultCard`
+- ✅ `AudioPlayer`
+- ✅ `TestTimer`
+- ✅ `TestProgress`
+- ✅ `QuestionCard`
+- ✅ `AnswerOption` (idle / selected / correct / wrong / dimmed)
+- ✅ `QuestionNavigator`
+- ✅ `ResultCard`
 - ⬜ `MistakeRow`
 - ⬜ `WritingEditor`
 - ⬜ `WordCounter`
@@ -337,7 +337,7 @@ In `src/components/layout`.
 - ✅ Voice diagnostic + estimated starting band
 - ✅ Adaptive daily plan (mock engine: weakest skill gets the most minutes)
 - ✅ Today's session chaining and debrief
-- ⬜ Listening practice + results + transcript
+- ✅ Listening practice + results + transcript
 - ⬜ Reading practice + results + explanations
 - ⬜ Writing: typed submission, auto-save, draft recovery, AI evaluation, sentence feedback
 - ⬜ Writing: handwritten submission with simulated OCR
@@ -368,7 +368,7 @@ In `src/components/layout`.
 - ✅ `diagnosticService` — voice sample / skip estimate; mock returns the §17 starting bands
 - ✅ `planService` (today's plan, plan changes, session debrief)
 - ✅ `practiceService` (Practice hub — six skills + mistake count)
-- ⬜ `listeningService`
+- ✅ `listeningService`
 - ⬜ `readingService`
 - ⬜ `writingService` (tasks, drafts, evaluation, OCR)
 - ⬜ `speakingService` (topics, recording, evaluation)
@@ -384,7 +384,7 @@ In `src/components/layout`.
 ### Mock data sets
 - ✅ User profile + goals + streak + XP
 - ✅ Daily plan (today's chain, bench, debrief). Session history remains Phase 09.
-- ⬜ Listening tests (sections 1–4, all required question types, transcripts)
+- ✅ Listening tests (sections 1–4, all required question types, original transcripts). Full 40-question mock remains Phase 09.
 - ⬜ Reading passages (Academic + General Training, all required question types)
 - ⬜ Writing tasks (Task 1 Academic + GT letters, Task 2 essay types) + model evaluations
 - ⬜ Speaking topics (parts 1–3, cue cards) + model debriefs
@@ -461,6 +461,27 @@ Filled in from Phase 04 onward; verified in full at Phase 12.
 ---
 
 ## 12. Phase log
+
+### Phase 07A — Listening · ✅
+
+**Practice papers, not a 40-question exam.** Four original section sets (1–4) cover every required question type. Cambridge items are not used. The full mock stays Phase 09.
+
+**The drill is deck 2b.** Ink player, segmented progress, lettered options, Check, then Mira names the trap and never says "Correct!". Timed mode hides the reveal until submit. The clock is real; the audio file is mock — duration, speed, seek, and mute work without a copyrighted recording.
+
+**Screens read `listeningService`.** Library → brief (practice / timed) → runner → result (band labelled as AI-estimated) → review (navigator, explanations, timestamped transcript).
+
+**Decisions made during the build**
+
+- **No `expo-av` yet.** FRONTEND_STACK wants current Expo audio APIs; a bundled file would be silence or a stock clip. The player already takes duration and a seek API, so a URI drops in later.
+- **Check-after-each is the product.** Official papers don't do this. Bandmate is a tutor, so practice mode interrupts. Timed is the exam-shaped path.
+- **Correct is ink, wrong is accent.** No green ticks. `AnswerOption` states match TRACKING.
+- **Section 3 (Maya) is the recommended set** — the same research-method MCQ as the deck.
+
+**Verified.** `tsc --noEmit` clean, `expo lint` clean. Walked Practice → Listening library → Maya brief → practice runner (Q1 A → Check → Mira "what you caught", Q2 C → Check) → timed runner with Next. Results and review are wired; finishing a full eight on device is the remaining feel-check.
+
+**Not done, by design.** Reading, writing, speaking. Full 40-question listening mock. Real audio files. Mistake notebook persistence (Phase 09).
+
+**Still to confirm on device.** Play/pause/speed haptics, timed auto-submit dialog, and review seek from transcript lines.
 
 ### Phase 06 — Today + Practice hub · ✅
 

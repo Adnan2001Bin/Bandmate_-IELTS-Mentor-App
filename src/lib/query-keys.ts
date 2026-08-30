@@ -9,4 +9,8 @@ export const queryKeys = {
   practice: {
     hub: ['practice', 'hub'] as const,
   },
+  listening: {
+    sets: ['listening', 'sets'] as const,
+    set: (id: string) => ['listening', 'set', id] as const,
+  },
 };

@@ -5,6 +5,7 @@ import { View } from 'react-native';
 import { BandScore } from '@/components/ielts';
 import { MiraMark } from '@/components/mira';
 import { Button, ErrorState, Rule, Screen, Skeleton, Text } from '@/components/ui';
+import { SESSION_HREF } from '@/features/listening';
 import { usePlanDebrief } from '@/features/plan/use-today-plan';
 
 export default function SessionDebriefScreen() {
@@ -107,7 +108,7 @@ export default function SessionDebriefScreen() {
           <Button
             label="Continue"
             trailingIcon={ArrowRight}
-            onPress={() => router.replace('/session/index')}
+            onPress={() => router.replace(SESSION_HREF)}
           />
         ) : (
           <Button
