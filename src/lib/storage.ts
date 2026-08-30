@@ -9,6 +9,7 @@ export const storageKeys = {
   authSession: 'bandmate.auth-session',
   onboardingProfile: 'bandmate.onboarding-profile',
   writingDrafts: 'bandmate.writing-drafts',
+  readingSaved: 'bandmate.reading-saved',
 } as const;
 
 export type StorageKey = (typeof storageKeys)[keyof typeof storageKeys];

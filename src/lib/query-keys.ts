@@ -13,4 +13,9 @@ export const queryKeys = {
     sets: ['listening', 'sets'] as const,
     set: (id: string) => ['listening', 'set', id] as const,
   },
+  reading: {
+    sets: ['reading', 'sets'] as const,
+    set: (id: string) => ['reading', 'set', id] as const,
+    saved: ['reading', 'saved'] as const,
+  },
 };

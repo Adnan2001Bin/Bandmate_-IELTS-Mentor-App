@@ -6,6 +6,7 @@ import type {
   PlanService,
   PracticeService,
   ProfileService,
+  ReadingService,
 } from './contracts';
 import { mockAuthService } from './mock/auth';
 import { mockDiagnosticService } from './mock/diagnostic';
@@ -13,6 +14,7 @@ import { mockListeningService } from './mock/listening';
 import { mockPlanService } from './mock/plan';
 import { mockPracticeService } from './mock/practice';
 import { mockProfileService } from './mock/profile';
+import { mockReadingService } from './mock/reading';
 
 /**
  * The single place that decides where data comes from. Screens import from here
@@ -26,6 +28,7 @@ type ServiceRegistry = {
   plan: PlanService;
   practice: PracticeService;
   listening: ListeningService;
+  reading: ReadingService;
 };
 
 const mockServices: ServiceRegistry = {
@@ -35,6 +38,7 @@ const mockServices: ServiceRegistry = {
   plan: mockPlanService,
   practice: mockPracticeService,
   listening: mockListeningService,
+  reading: mockReadingService,
 };
 
 function resolveServices(): ServiceRegistry {

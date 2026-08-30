@@ -12,6 +12,8 @@ export { PlanTaskRow, type PlanTaskRowProps } from './plan-task-row';
 export { PracticeCard, type PracticeCardProps } from './practice-card';
 export { PracticeStatusTag, type PracticeStatusTagProps } from './practice-status';
 export { ProgressCard, type ProgressCardProps } from './progress-card';
+export { ReadingPassage, ReadingDiagram, type ReadingPassageProps, type ReadingDiagramProps } from './reading-passage';
+export { QuestionBody, type QuestionBodyProps, type QuestionBodyQuestion } from './question-body';
 export { QuestionCard, type QuestionCardProps } from './question-card';
 export {
   QuestionNavigator,

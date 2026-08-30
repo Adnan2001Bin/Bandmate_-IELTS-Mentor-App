@@ -2,9 +2,9 @@
 
 Living document. Updated at the end of every phase.
 
-- **Current phase:** 07A — Listening
-- **Status:** Complete — typecheck, lint, and a library → brief → drill walkthrough all pass
-- **Next phase:** 07B — Reading (do not start without an explicit prompt)
+- **Current phase:** 07B — Reading
+- **Status:** Complete — typecheck, lint, and a library → brief → drill → result → review → save walkthrough all pass
+- **Next phase:** 07C — Writing (do not start without an explicit prompt)
 
 ---
 
@@ -96,7 +96,7 @@ The deck (`Bandmate.dc.html`) applies the **Modernist** design system to a phone
 | 05 | Authentication + onboarding + diagnostic | ✅ Complete |
 | 06 | Today (home) + Practice hub | ✅ Complete |
 | 07A | Listening | ✅ Complete |
-| 07B | Reading | ⬜ Not started |
+| 07B | Reading | ✅ Complete |
 | 07C | Writing | ⬜ Not started |
 | 07D | Speaking | ⬜ Not started |
 | 07E | Vocabulary + Grammar | ⬜ Not started |
@@ -132,7 +132,7 @@ src/app/
   +not-found.tsx     ✅
   design-system.tsx  ✅ dev-only gallery, not in the tab bar
   (tabs)/            ✅ index (Today) · practice · mock · mira · profile
-  practice/          ✅ listening (library · brief · run · result · review) · reading · writing · speaking · vocabulary · grammar
+  practice/          ✅ listening (library · brief · run · result · review) · reading (library · brief · run · result · review · study) · writing · speaking · vocabulary · grammar
   session/           ✅ index (runner shell) · debrief     (skill modules are Phase 07)
   mock/              ✅ lobby · report          (runner added in Phase 09)
   progress/          ✅ index · history · weaknesses   (league deferred, §10.4)
@@ -181,11 +181,11 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done
 - ✅ Transcript
 
 ### Reading — Phase 07B
-- ⬜ Passage / test selection (Academic + General Training)
-- ⬜ Passage + questions
-- ⬜ Results
-- ⬜ Answer review with explanation
-- ⬜ Saved difficult questions
+- ✅ Passage / test selection (Academic + General Training)
+- ✅ Passage + questions
+- ✅ Results
+- ✅ Answer review with explanation
+- ✅ Saved difficult questions
 
 ### Writing — Phase 07C
 - ⬜ Task selection (Task 1 / Task 2, timed or untimed)
@@ -306,6 +306,9 @@ In `src/components/layout`.
 - ✅ `AnswerOption` (idle / selected / correct / wrong / dimmed)
 - ✅ `QuestionNavigator`
 - ✅ `ResultCard`
+- ✅ `QuestionBody` (shared listening / reading answer surface)
+- ✅ `ReadingPassage` (body-size prose, accent rule on locate)
+- ✅ `ReadingDiagram`
 - ⬜ `MistakeRow`
 - ⬜ `WritingEditor`
 - ⬜ `WordCounter`
@@ -338,7 +341,7 @@ In `src/components/layout`.
 - ✅ Adaptive daily plan (mock engine: weakest skill gets the most minutes)
 - ✅ Today's session chaining and debrief
 - ✅ Listening practice + results + transcript
-- ⬜ Reading practice + results + explanations
+- ✅ Reading practice + results + explanations + saved questions
 - ⬜ Writing: typed submission, auto-save, draft recovery, AI evaluation, sentence feedback
 - ⬜ Writing: handwritten submission with simulated OCR
 - ⬜ Speaking: parts 1–3, recording, live coaching, debrief, transcript
@@ -369,7 +372,7 @@ In `src/components/layout`.
 - ✅ `planService` (today's plan, plan changes, session debrief)
 - ✅ `practiceService` (Practice hub — six skills + mistake count)
 - ✅ `listeningService`
-- ⬜ `readingService`
+- ✅ `readingService`
 - ⬜ `writingService` (tasks, drafts, evaluation, OCR)
 - ⬜ `speakingService` (topics, recording, evaluation)
 - ⬜ `vocabularyService`
@@ -385,7 +388,7 @@ In `src/components/layout`.
 - ✅ User profile + goals + streak + XP
 - ✅ Daily plan (today's chain, bench, debrief). Session history remains Phase 09.
 - ✅ Listening tests (sections 1–4, all required question types, original transcripts). Full 40-question mock remains Phase 09.
-- ⬜ Reading passages (Academic + General Training, all required question types)
+- ✅ Reading passages (Academic + General Training, all required question types). Full 40-question mock remains Phase 09.
 - ⬜ Writing tasks (Task 1 Academic + GT letters, Task 2 essay types) + model evaluations
 - ⬜ Speaking topics (parts 1–3, cue cards) + model debriefs
 - ⬜ Vocabulary (11 categories, word entries with synonyms/examples/IELTS context)
@@ -461,6 +464,27 @@ Filled in from Phase 04 onward; verified in full at Phase 12.
 ---
 
 ## 12. Phase log
+
+### Phase 07B — Reading · ✅
+
+**Passage papers, not a 40-question exam.** Four original sets cover every required question type, Academic and General Training. Cambridge items are not used. The full mock stays Phase 09.
+
+**Mobile reading is two panes, not a split.** Passage | Questions. Body-size prose. After Practice Check, the runner switches to the passage and marks `locateParagraphId` with a 4px accent rule. Timed hides the reveal until submit. Mira never says "Correct!".
+
+**Screens read `readingService`.** Library (All / Academic / GT + saved) → brief (practice / timed) → runner → result (band labelled as AI-estimated) → review (navigator, Correct answer / Why, save). Saved items open a study screen without needing a finished attempt.
+
+**Decisions made during the build**
+
+- **Reuse the listening drill, not a new widget set.** `QuestionBody`, `AnswerOption`, `TestProgress`, `TestTimer`, `ResultCard` are shared. Reading adds `ReadingPassage` and `ReadingDiagram`.
+- **Check-after-each is still the product.** Official papers don't interrupt. Bandmate is a tutor, so practice mode locates the paragraph immediately.
+- **Saved questions persist on device** (`storageKeys.readingSaved`) through the service, not a screen-local list. Phase 09 still owns the cross-skill mistake notebook.
+- **Film archives is the recommended set** — matching headings + sentence completion, tagged Today.
+
+**Verified.** `tsc --noEmit` clean, `expo lint` clean. Walked Practice → Reading library (GT filter → cycle-to-work only) → rain gardens brief → practice runner (Q1 True → Check → passage locate + Mira "what you caught") → finish 8/8 → result (AI estimated band) → review (Correct answer / Why) → save → library Saved → study. Coral Q7 shows the diagram schematic.
+
+**Not done, by design.** Writing, speaking. Full 40-question reading mock. Cross-skill mistake notebook (Phase 09).
+
+**Still to confirm on device.** Passage scroll at body size on a physical phone, timed auto-submit dialog, and bookmark save/unsave haptics.
 
 ### Phase 07A — Listening · ✅
 
