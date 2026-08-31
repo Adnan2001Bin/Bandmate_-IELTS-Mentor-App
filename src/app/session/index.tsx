@@ -9,6 +9,7 @@ import { Button, ErrorState, Screen, Skeleton, StepProgress, Text } from '@/comp
 import { LISTENING_LIBRARY_HREF } from '@/features/listening';
 import { usePlanActions, useTodayPlan } from '@/features/plan/use-today-plan';
 import { READING_LIBRARY_HREF } from '@/features/reading';
+import { WRITING_LIBRARY_HREF } from '@/features/writing';
 
 /**
  * Chains today's tasks. The actual listening / writing / speaking modules are
@@ -88,13 +89,36 @@ export default function SessionRunnerScreen() {
             onPress={() => router.push(READING_LIBRARY_HREF)}
           />
         ) : null}
+        {current.area === 'writing' ? (
+          <Button
+            label="Open writing task"
+            trailingIcon={ArrowRight}
+            onPress={() => router.push(WRITING_LIBRARY_HREF)}
+          />
+        ) : null}
         <Button
           label={pending.length > 1 ? 'Mark done · next' : 'Mark done · finish'}
           trailingIcon={
-            current.area === 'listening' || current.area === 'reading' ? undefined : ArrowRight
+            current.area === 'listening' ||
+            current.area === 'reading' ||
+            current.area === 'writing'
+              ? undefined
+              : ArrowRight
           }
-          variant={current.area === 'listening' || current.area === 'reading' ? 'ghost' : 'primary'}
-          size={current.area === 'listening' || current.area === 'reading' ? 'md' : 'lg'}
+          variant={
+            current.area === 'listening' ||
+            current.area === 'reading' ||
+            current.area === 'writing'
+              ? 'ghost'
+              : 'primary'
+          }
+          size={
+            current.area === 'listening' ||
+            current.area === 'reading' ||
+            current.area === 'writing'
+              ? 'md'
+              : 'lg'
+          }
           loading={completeTask.isPending}
           onPress={() => {
             completeTask.mutate(current.id, {

@@ -3,3 +3,4 @@ export * from './listening';
 export * from './plan';
 export * from './reading';
 export * from './user';
+export * from './writing';

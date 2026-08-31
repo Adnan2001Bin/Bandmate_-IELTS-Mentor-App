@@ -5,3 +5,9 @@ export type { PlanService } from './plan';
 export type { PracticeService } from './practice';
 export type { ProfileService, UserProfile } from './profile';
 export type { ReadingService, ReadingSaveInput, ReadingSubmitInput } from './reading';
+export type {
+  WritingService,
+  WritingDraftInput,
+  WritingRewriteInput,
+  WritingSubmitInput,
+} from './writing';

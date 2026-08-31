@@ -18,4 +18,10 @@ export const queryKeys = {
     set: (id: string) => ['reading', 'set', id] as const,
     saved: ['reading', 'saved'] as const,
   },
+  writing: {
+    tasks: ['writing', 'tasks'] as const,
+    task: (id: string) => ['writing', 'task', id] as const,
+    drafts: ['writing', 'drafts'] as const,
+    draft: (id: string) => ['writing', 'draft', id] as const,
+  },
 };

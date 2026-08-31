@@ -2,9 +2,9 @@
 
 Living document. Updated at the end of every phase.
 
-- **Current phase:** 07B — Reading
-- **Status:** Complete — typecheck, lint, and a library → brief → drill → result → review → save walkthrough all pass
-- **Next phase:** 07C — Writing (do not start without an explicit prompt)
+- **Current phase:** 07C — Writing
+- **Status:** Complete — typecheck, lint, and a library → brief → write → analyzing → result walkthrough all pass
+- **Next phase:** 07D — Speaking (do not start without an explicit prompt)
 
 ---
 
@@ -97,7 +97,7 @@ The deck (`Bandmate.dc.html`) applies the **Modernist** design system to a phone
 | 06 | Today (home) + Practice hub | ✅ Complete |
 | 07A | Listening | ✅ Complete |
 | 07B | Reading | ✅ Complete |
-| 07C | Writing | ⬜ Not started |
+| 07C | Writing | ✅ Complete |
 | 07D | Speaking | ⬜ Not started |
 | 07E | Vocabulary + Grammar | ⬜ Not started |
 | 08 | AI mentor (Mira) | ⬜ Not started |
@@ -132,7 +132,7 @@ src/app/
   +not-found.tsx     ✅
   design-system.tsx  ✅ dev-only gallery, not in the tab bar
   (tabs)/            ✅ index (Today) · practice · mock · mira · profile
-  practice/          ✅ listening (library · brief · run · result · review) · reading (library · brief · run · result · review · study) · writing · speaking · vocabulary · grammar
+  practice/          ✅ listening (library · brief · run · result · review) · reading (library · brief · run · result · review · study) · writing (library · brief · write · handwrite · analyzing · result · feedback) · speaking · vocabulary · grammar
   session/           ✅ index (runner shell) · debrief     (skill modules are Phase 07)
   mock/              ✅ lobby · report          (runner added in Phase 09)
   progress/          ✅ index · history · weaknesses   (league deferred, §10.4)
@@ -188,16 +188,16 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done
 - ✅ Saved difficult questions
 
 ### Writing — Phase 07C
-- ⬜ Task selection (Task 1 / Task 2, timed or untimed)
-- ⬜ Task brief + instructions
-- ⬜ Editor with sticky timer, word counter, auto-save, live flags
-- ⬜ Submit confirmation (under-length warning)
-- ⬜ Analyzing state
-- ⬜ Evaluation report — overall band + four criteria
-- ⬜ Sentence-level feedback
-- ⬜ "Your paragraph, rewritten" + what changed and why
-- ⬜ Rewrite-it-yourself exercise
-- ⬜ Handwritten: capture → pages → OCR (simulated) → review text → submit
+- ✅ Task selection (Task 1 / Task 2, timed or untimed)
+- ✅ Task brief + instructions
+- ✅ Editor with sticky timer, word counter, auto-save, live flags
+- ✅ Submit confirmation (under-length warning)
+- ✅ Analyzing state
+- ✅ Evaluation report — overall band + four criteria
+- ✅ Sentence-level feedback
+- ✅ "Your paragraph, rewritten" + what changed and why
+- ✅ Rewrite-it-yourself exercise
+- ✅ Handwritten: capture → pages → OCR (simulated) → review text → submit
 
 ### Speaking — Phase 07D
 - ⬜ Speaking setup / mode select
@@ -297,7 +297,6 @@ In `src/components/layout`.
 - ✅ `SkillCard`
 - ✅ `SessionCard`
 - ✅ `MiraNote` (accent left rule + heading + body) — also exported as `RecommendationCard`
-- ⬜ `CriterionRow`
 - ✅ `PlanTaskRow`
 - ✅ `AudioPlayer`
 - ✅ `TestTimer`
@@ -310,11 +309,12 @@ In `src/components/layout`.
 - ✅ `ReadingPassage` (body-size prose, accent rule on locate)
 - ✅ `ReadingDiagram`
 - ⬜ `MistakeRow`
-- ⬜ `WritingEditor`
-- ⬜ `WordCounter`
-- ⬜ `InlineFlag` (underline + tint inside prose)
-- ⬜ `SentenceFeedback`
-- ⬜ `RewriteCompare`
+- ✅ `WritingEditor`
+- ✅ `WordCounter`
+- ⬜ `InlineFlag` (underline + tint inside prose) — live flags are a list under the editor; overlaying a TextInput is Phase 11 if needed
+- ✅ `SentenceFeedback`
+- ✅ `RewriteCompare`
+- ✅ `CriterionRow`
 - ⬜ `SpeakingRecorder` (mic control + state)
 - ✅ `Waveform` — built in Phase 05 for the voice diagnostic
 - ⬜ `CoachingCard`
@@ -342,8 +342,8 @@ In `src/components/layout`.
 - ✅ Today's session chaining and debrief
 - ✅ Listening practice + results + transcript
 - ✅ Reading practice + results + explanations + saved questions
-- ⬜ Writing: typed submission, auto-save, draft recovery, AI evaluation, sentence feedback
-- ⬜ Writing: handwritten submission with simulated OCR
+- ✅ Writing: typed submission, auto-save, draft recovery, AI evaluation, sentence feedback
+- ✅ Writing: handwritten submission with simulated OCR
 - ⬜ Speaking: parts 1–3, recording, live coaching, debrief, transcript
 - ⬜ Vocabulary + spaced-repetition review
 - ⬜ Grammar lessons + practice
@@ -373,7 +373,7 @@ In `src/components/layout`.
 - ✅ `practiceService` (Practice hub — six skills + mistake count)
 - ✅ `listeningService`
 - ✅ `readingService`
-- ⬜ `writingService` (tasks, drafts, evaluation, OCR)
+- ✅ `writingService` (tasks, drafts, evaluation, simulated OCR)
 - ⬜ `speakingService` (topics, recording, evaluation)
 - ⬜ `vocabularyService`
 - ⬜ `grammarService`
@@ -389,7 +389,7 @@ In `src/components/layout`.
 - ✅ Daily plan (today's chain, bench, debrief). Session history remains Phase 09.
 - ✅ Listening tests (sections 1–4, all required question types, original transcripts). Full 40-question mock remains Phase 09.
 - ✅ Reading passages (Academic + General Training, all required question types). Full 40-question mock remains Phase 09.
-- ⬜ Writing tasks (Task 1 Academic + GT letters, Task 2 essay types) + model evaluations
+- ✅ Writing tasks (Task 1 Academic charts + GT letters, Task 2 essay types) + model evaluations
 - ⬜ Speaking topics (parts 1–3, cue cards) + model debriefs
 - ⬜ Vocabulary (11 categories, word entries with synonyms/examples/IELTS context)
 - ⬜ Grammar (11 categories, lessons, questions, explanations)
@@ -464,6 +464,27 @@ Filled in from Phase 04 onward; verified in full at Phase 12.
 ---
 
 ## 12. Phase log
+
+### Phase 07C — Writing · ✅
+
+**Task papers, not a 60-minute mock.** Sixteen original prompts cover Academic Task 1 (line, bar, pie, table, process, map, mixed), GT letters (formal, semi-formal, informal), and Task 2 (opinion, discussion, advantages, problem/solution, two-part, agree/disagree). The chained Task 1 + Task 2 exam stays Phase 09.
+
+**The editor is the product.** Sticky clock, word / character count, auto-save to device storage, live flags for soft vocabulary. Under-length submit asks once. Analyzing is a named wait — mock evaluation, not a live model. The band is labelled “AI estimated band — for practice purposes only.”
+
+**Screens read `writingService`.** Library → brief (timed / untimed, type / paper) → editor or handwritten pages → analyzing → result (four criteria, strengths, gap, next practice) → sentence feedback + rewrite-it-yourself. Paper pages are simulated; OCR is a canned extract the learner can edit. Do not claim a real model.
+
+**Decisions made during the build**
+
+- **No `expo-image-picker`.** Expo Go would take a photo; this phase simulates pages so we do not add a native module or pretend the camera is wired.
+- **Live flags are a list, not an overlay.** Underlining inside a `TextInput` is a fight the keyboard would win. The flags still interrupt “very” / “important” while they type.
+- **Task Achievement vs Task Response** is a label. The criterion key is still `taskResponse`.
+- **Cycle trips (line graph) and Public libraries (opinion)** are the Today tags.
+
+**Verified.** `tsc --noEmit` clean, `expo lint` clean. Walked Practice → Writing library (Task 1 filter) → cycle trips brief → untimed editor (under-length confirm) → analyzing → result (disclaimer + criteria) → rewrite exercise. Handwritten path: add page → read pages → extract → submit.
+
+**Not done, by design.** Speaking. Full 60-minute writing mock. Real camera / OCR. Cross-skill mistake notebook (Phase 09).
+
+**Still to confirm on device.** Keyboard avoiding the sticky submit bar, auto-save across an app kill, and the timed auto-submit dialog.
 
 ### Phase 07B — Reading · ✅
 
