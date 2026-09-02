@@ -1,7 +1,26 @@
 export { AnswerOption, type AnswerOptionProps, type AnswerOptionState } from './answer-option';
 export { AudioPlayer, type AudioPlayerProps } from './audio-player';
 export { BandScore, type BandScoreProps } from './band-score';
-export { CriterionRow, WRITING_CRITERION_LABEL, type CriterionRowProps } from './criterion-row';
+export {
+  CriterionRow,
+  SPEAKING_CRITERION_LABEL,
+  WRITING_CRITERION_LABEL,
+  type CriterionRowProps,
+} from './criterion-row';
+export { CoachingCard, type CoachingCardProps } from './coaching-card';
+export { CueCard, type CueCardProps } from './cue-card';
+export { RecordingTimer, type RecordingTimerProps } from './recording-timer';
+export {
+  SpeakingEvaluation,
+  type SpeakingEvaluationProps,
+} from './speaking-evaluation';
+export { SpeakingQuestion, type SpeakingQuestionProps } from './speaking-question';
+export {
+  SpeakingRecorder,
+  type RecorderStatus,
+  type SpeakingRecorderProps,
+} from './speaking-recorder';
+export { Transcript, type TranscriptProps } from './transcript';
 export { ListeningVisual, type ListeningVisualProps } from './listening-visual';
 export {
   MiraNote,

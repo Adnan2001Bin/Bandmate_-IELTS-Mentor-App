@@ -2,7 +2,7 @@ import { View } from 'react-native';
 
 import { ProgressBar, Text } from '@/components/ui';
 import { cn } from '@/lib/cn';
-import type { Band, WritingCriterion } from '@/types';
+import type { Band, SpeakingCriterion, WritingCriterion } from '@/types';
 
 const FLOOR = 4;
 const CEILING = 9;
@@ -15,8 +15,20 @@ export const WRITING_CRITERION_LABEL: Record<WritingCriterion, string> = {
   grammaticalRange: 'Grammar',
 };
 
+export const SPEAKING_CRITERION_LABEL: Record<SpeakingCriterion, string> = {
+  fluencyCoherence: 'Fluency & coherence',
+  lexicalResource: 'Lexical resource',
+  grammaticalRange: 'Grammar',
+  pronunciation: 'Pronunciation',
+};
+
+const CRITERION_LABEL: Record<WritingCriterion | SpeakingCriterion, string> = {
+  ...WRITING_CRITERION_LABEL,
+  ...SPEAKING_CRITERION_LABEL,
+};
+
 export type CriterionRowProps = {
-  criterion: WritingCriterion;
+  criterion: WritingCriterion | SpeakingCriterion;
   /** Override the default label (Task Achievement on Task 1). */
   label?: string;
   band: Band;
@@ -35,7 +47,7 @@ export function CriterionRow({
   className,
 }: CriterionRowProps) {
   const short = target !== undefined && target - band >= 1;
-  const title = label ?? WRITING_CRITERION_LABEL[criterion];
+  const title = label ?? CRITERION_LABEL[criterion];
 
   return (
     <View className={cn('border-t border-divider py-3', className)}>

@@ -24,4 +24,8 @@ export const queryKeys = {
     drafts: ['writing', 'drafts'] as const,
     draft: (id: string) => ['writing', 'draft', id] as const,
   },
+  speaking: {
+    topics: ['speaking', 'topics'] as const,
+    topic: (id: string) => ['speaking', 'topic', id] as const,
+  },
 };

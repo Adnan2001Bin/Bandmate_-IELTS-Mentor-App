@@ -2,9 +2,9 @@
 
 Living document. Updated at the end of every phase.
 
-- **Current phase:** 07C — Writing
-- **Status:** Complete — typecheck, lint, and a library → brief → write → analyzing → result walkthrough all pass
-- **Next phase:** 07D — Speaking (do not start without an explicit prompt)
+- **Current phase:** 07D — Speaking
+- **Status:** Complete — typecheck, lint, and a library → brief → Part 1 record → Part 2 prep → speak → Part 3 → analyzing → debrief/transcript walkthrough all pass
+- **Next phase:** 07E — Vocabulary + Grammar (do not start without an explicit prompt)
 
 ---
 
@@ -98,7 +98,7 @@ The deck (`Bandmate.dc.html`) applies the **Modernist** design system to a phone
 | 07A | Listening | ✅ Complete |
 | 07B | Reading | ✅ Complete |
 | 07C | Writing | ✅ Complete |
-| 07D | Speaking | ⬜ Not started |
+| 07D | Speaking | ✅ Complete |
 | 07E | Vocabulary + Grammar | ⬜ Not started |
 | 08 | AI mentor (Mira) | ⬜ Not started |
 | 09 | Mock tests + progress + weaknesses + mistakes | ⬜ Not started |
@@ -200,11 +200,11 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done
 - ✅ Handwritten: capture → pages → OCR (simulated) → review text → submit
 
 ### Speaking — Phase 07D
-- ⬜ Speaking setup / mode select
-- ⬜ Part 1 · Part 2 (cue card + 1min prep) · Part 3
-- ⬜ Live session — recorder, waveform, live coaching cards, live metrics
-- ⬜ Debrief — band, four criteria, "the two fixes"
-- ⬜ Transcript with timestamps ("hear yourself — 0:41")
+- ✅ Speaking setup / mode select
+- ✅ Part 1 · Part 2 (cue card + 1min prep) · Part 3
+- ✅ Live session — recorder, waveform, live coaching cards, live metrics
+- ✅ Debrief — band, four criteria, "the two fixes"
+- ✅ Transcript with timestamps ("hear yourself — 0:41")
 
 ### Vocabulary — Phase 07E
 - ⬜ Categories
@@ -315,11 +315,11 @@ In `src/components/layout`.
 - ✅ `SentenceFeedback`
 - ✅ `RewriteCompare`
 - ✅ `CriterionRow`
-- ⬜ `SpeakingRecorder` (mic control + state)
+- ✅ `SpeakingRecorder` (mic control + state)
 - ✅ `Waveform` — built in Phase 05 for the voice diagnostic
-- ⬜ `CoachingCard`
-- ⬜ `CueCard`
-- ⬜ `Transcript`
+- ✅ `CoachingCard`
+- ✅ `CueCard`
+- ✅ `Transcript`
 - ⬜ `VocabularyCard`
 - ⬜ `VocabularyDetail`
 - ⬜ `GrammarLesson`
@@ -344,7 +344,7 @@ In `src/components/layout`.
 - ✅ Reading practice + results + explanations + saved questions
 - ✅ Writing: typed submission, auto-save, draft recovery, AI evaluation, sentence feedback
 - ✅ Writing: handwritten submission with simulated OCR
-- ⬜ Speaking: parts 1–3, recording, live coaching, debrief, transcript
+- ✅ Speaking: parts 1–3, recording, live coaching, debrief, transcript
 - ⬜ Vocabulary + spaced-repetition review
 - ⬜ Grammar lessons + practice
 - ⬜ Mira chat with user context (band, target, weaknesses, recent practice)
@@ -374,7 +374,7 @@ In `src/components/layout`.
 - ✅ `listeningService`
 - ✅ `readingService`
 - ✅ `writingService` (tasks, drafts, evaluation, simulated OCR)
-- ⬜ `speakingService` (topics, recording, evaluation)
+- ✅ `speakingService` (topics, recording, evaluation)
 - ⬜ `vocabularyService`
 - ⬜ `grammarService`
 - ⬜ `mockTestService`
@@ -390,7 +390,7 @@ In `src/components/layout`.
 - ✅ Listening tests (sections 1–4, all required question types, original transcripts). Full 40-question mock remains Phase 09.
 - ✅ Reading passages (Academic + General Training, all required question types). Full 40-question mock remains Phase 09.
 - ✅ Writing tasks (Task 1 Academic charts + GT letters, Task 2 essay types) + model evaluations
-- ⬜ Speaking topics (parts 1–3, cue cards) + model debriefs
+- ✅ Speaking topics (parts 1–3, cue cards) + model debriefs
 - ⬜ Vocabulary (11 categories, word entries with synonyms/examples/IELTS context)
 - ⬜ Grammar (11 categories, lessons, questions, explanations)
 - ⬜ Mock tests + band reports
@@ -464,6 +464,27 @@ Filled in from Phase 04 onward; verified in full at Phase 12.
 ---
 
 ## 12. Phase log
+
+### Phase 07D — Speaking · ✅
+
+**Parts 1–3, not a live examiner.** Four original topics (home, work, travel, screens). Library is topic pick plus Surprise me (random). Setup is Practice / Examiner / Challenge. Challenge swaps in harder Part 3. The full mock stays Phase 09.
+
+**The clock is real. The microphone is not wired.** Same honesty as listening audio and writing OCR. Waveform, prep countdown, and playback are clocks. Fillers and the transcript come from the mock script after you stop, not from a model. Expo audio can replace the clock without changing `SpeakingRecorder`.
+
+**Screens read `speakingService`.** Library → brief (mode) → run (Part 1 questions, Part 2 cue + 1 min prep + 2 min speak, Part 3) → analyzing → result (overall band, four criteria, the two fixes) → transcript (timestamps, You said / Better / why, Hear yourself). Session CTA: **Open speaking set**. The street you know is the Today tag.
+
+**Decisions made during the build**
+
+- **No `expo-av`.** Timing is real; there is no capture URI. Do not claim a mic or a live score.
+- **Topic and Random live on the library.** Practice / Examiner / Challenge change the session. Random preselects Examiner.
+- **Next stays locked until this prompt has a take.** Advancing used to copy the previous duration onto the next question; reset the recorder before the index moves.
+- **Pronunciation is a stand-in** until a recording URI exists. The criterion note says so. The band is still labelled “AI estimated band — for practice purposes only.”
+
+**Verified.** `tsc --noEmit` clean, `expo lint` clean. Walked Practice → Speaking library → The street you know → Practice → Part 1 record (live coaching after 8s) → Part 2 prep countdown → speak → Part 3 → analyzing → debrief (disclaimer, two fixes, criteria) → transcript (Hear yourself seeks the clock). Session shows Open speaking set.
+
+**Not done, by design.** Vocabulary + Grammar (07E). Real microphone / speech-to-text. Full mock speaking section. Cross-skill mistake notebook (Phase 09).
+
+**Still to confirm on device.** Haptics on start/stop, Part 2 auto-stop at two minutes, and the waveform on a physical phone.
 
 ### Phase 07C — Writing · ✅
 

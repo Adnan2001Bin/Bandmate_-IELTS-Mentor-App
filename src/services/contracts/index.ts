@@ -11,3 +11,4 @@ export type {
   WritingRewriteInput,
   WritingSubmitInput,
 } from './writing';
+export type { SpeakingService, SpeakingSubmitInput } from './speaking';

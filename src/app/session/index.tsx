@@ -9,6 +9,7 @@ import { Button, ErrorState, Screen, Skeleton, StepProgress, Text } from '@/comp
 import { LISTENING_LIBRARY_HREF } from '@/features/listening';
 import { usePlanActions, useTodayPlan } from '@/features/plan/use-today-plan';
 import { READING_LIBRARY_HREF } from '@/features/reading';
+import { SPEAKING_LIBRARY_HREF } from '@/features/speaking';
 import { WRITING_LIBRARY_HREF } from '@/features/writing';
 
 /**
@@ -52,6 +53,11 @@ export default function SessionRunnerScreen() {
   }
 
   const stepIndex = done;
+  const hasModule =
+    current.area === 'listening' ||
+    current.area === 'reading' ||
+    current.area === 'writing' ||
+    current.area === 'speaking';
 
   return (
     <Screen edges={['top', 'bottom']}>
@@ -96,29 +102,18 @@ export default function SessionRunnerScreen() {
             onPress={() => router.push(WRITING_LIBRARY_HREF)}
           />
         ) : null}
+        {current.area === 'speaking' ? (
+          <Button
+            label="Open speaking set"
+            trailingIcon={ArrowRight}
+            onPress={() => router.push(SPEAKING_LIBRARY_HREF)}
+          />
+        ) : null}
         <Button
           label={pending.length > 1 ? 'Mark done · next' : 'Mark done · finish'}
-          trailingIcon={
-            current.area === 'listening' ||
-            current.area === 'reading' ||
-            current.area === 'writing'
-              ? undefined
-              : ArrowRight
-          }
-          variant={
-            current.area === 'listening' ||
-            current.area === 'reading' ||
-            current.area === 'writing'
-              ? 'ghost'
-              : 'primary'
-          }
-          size={
-            current.area === 'listening' ||
-            current.area === 'reading' ||
-            current.area === 'writing'
-              ? 'md'
-              : 'lg'
-          }
+          trailingIcon={hasModule ? undefined : ArrowRight}
+          variant={hasModule ? 'ghost' : 'primary'}
+          size={hasModule ? 'md' : 'lg'}
           loading={completeTask.isPending}
           onPress={() => {
             completeTask.mutate(current.id, {
