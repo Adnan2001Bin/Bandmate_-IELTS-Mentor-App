@@ -18,3 +18,4 @@ export type {
   VocabQuizSubmitInput,
 } from './vocabulary';
 export type { GrammarService, GrammarSubmitInput } from './grammar';
+export type { MentorService, MentorSendInput } from './mentor';

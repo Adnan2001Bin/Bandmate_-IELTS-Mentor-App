@@ -2,9 +2,9 @@
 
 Living document. Updated at the end of every phase.
 
-- **Current phase:** 07E — Vocabulary + Grammar
-- **Status:** Complete — typecheck, lint, and a Chrome walkthrough of vocab (library → set → word → quiz → review → difficult) and grammar (lesson → drill → result → practice again)
-- **Next phase:** 08 — AI mentor (do not start without an explicit prompt)
+- **Current phase:** 08 — AI mentor (Mira)
+- **Status:** Complete — typecheck, lint, and a Chrome walkthrough of Mira home → suggested prompt → thinking/typing → reply with actions → study plan → retry path
+- **Next phase:** 09 — Mock tests + progress + weaknesses + mistakes (do not start without an explicit prompt)
 
 ---
 
@@ -100,7 +100,7 @@ The deck (`Bandmate.dc.html`) applies the **Modernist** design system to a phone
 | 07C | Writing | ✅ Complete |
 | 07D | Speaking | ✅ Complete |
 | 07E | Vocabulary + Grammar | ✅ Complete |
-| 08 | AI mentor (Mira) | ⬜ Not started |
+| 08 | AI mentor (Mira) | ✅ Complete |
 | 09 | Mock tests + progress + weaknesses + mistakes | ⬜ Not started |
 | 10 | Profile + settings | ⬜ Not started |
 | 11 | UI polish | ⬜ Not started |
@@ -133,6 +133,7 @@ src/app/
   design-system.tsx  ✅ dev-only gallery, not in the tab bar
   (tabs)/            ✅ index (Today) · practice · mock · mira · profile
   practice/          ✅ listening (library · brief · run · result · review) · reading (library · brief · run · result · review · study) · writing (library · brief · write · handwrite · analyzing · result · feedback) · speaking · vocabulary · grammar
+  mira/              ✅ chat · plan
   session/           ✅ index (runner shell) · debrief     (skill modules are Phase 07)
   mock/              ✅ lobby · report          (runner added in Phase 09)
   progress/          ✅ index · history · weaknesses   (league deferred, §10.4)
@@ -222,10 +223,10 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done
 - ✅ Result / practice again
 
 ### Mira — Phase 08
-- ⬜ Chat — daily check-in, suggested prompts, action chips that add to the plan
-- ⬜ Study plan view
-- ⬜ Conversation history
-- ⬜ Entry points into speaking / writing / vocabulary / grammar
+- ✅ Chat — daily check-in, suggested prompts, action chips that add to the plan
+- ✅ Study plan view
+- ✅ Conversation history
+- ✅ Entry points into speaking / writing / vocabulary / grammar
 
 ### Mock tests & progress — Phase 09
 - ⬜ Mock list
@@ -326,6 +327,7 @@ In `src/components/layout`.
 - ✅ `GrammarQuestion`
 - ✅ `ExplanationCard`
 - ✅ `PracticeResult`
+- ✅ `MentorMessageBubble` / `MentorComposer` / `MentorStatus` / `MentorPromptChip`
 - ⬜ `TrajectoryChart` (bar columns, dashed = projected)
 - ✅ `StreakStrip`
 - ⬜ `LeagueRow`
@@ -348,8 +350,8 @@ In `src/components/layout`.
 - ✅ Speaking: parts 1–3, recording, live coaching, debrief, transcript
 - ✅ Vocabulary + spaced-repetition review
 - ✅ Grammar lessons + practice
-- ⬜ Mira chat with user context (band, target, weaknesses, recent practice)
-- ⬜ AI states: thinking / typing / responding / error / retry
+- ✅ Mira chat with user context (band, target, weaknesses, recent practice)
+- ✅ AI states: thinking / typing / responding / error / retry
 - ⬜ Full mock test flow + band report + plan change
 - ⬜ Band forecast + trajectory + per-band floor
 - ⬜ Weakness detection dashboard
@@ -382,7 +384,7 @@ In `src/components/layout`.
 - ⬜ `progressService` (forecast, history, analytics)
 - ⬜ `weaknessService`
 - ⬜ `mistakeService`
-- ⬜ `mentorService` (Mira chat + contextual responses)
+- ✅ `mentorService` (Mira chat + contextual responses)
 - ✅ `profileService` — contract + mock
 
 ### Mock data sets
@@ -397,7 +399,7 @@ In `src/components/layout`.
 - ⬜ Mock tests + band reports
 - ⬜ Mistake bank entries across all skills
 - ⬜ Score history / trajectory
-- ⬜ Mira conversation seeds + contextual response templates
+- ✅ Mira conversation seeds + contextual response templates
 - ⬜ League members
 
 Rule: **no data literals inside screens.** Screens read from hooks; hooks read from services; services read from `mocks/`.
@@ -465,6 +467,26 @@ Filled in from Phase 04 onward; verified in full at Phase 12.
 ---
 
 ## 12. Phase log
+
+### Phase 08 — AI mentor (Mira) · ✅
+
+**A tutor desk, not ChatGPT.** The Mira tab is a check-in: current/target band, today’s mix, suggested prompts, and entries into speaking / writing / Education vocab / Articles grammar. Chat is a stack screen (`/mira/chat`) so the keyboard does not fight the tab bar. Study plan (`/mira/plan`) is Mira’s read of the 18 minutes, not a second Today.
+
+**No live model.** `mentorService.send` delays, matches intent (speaking, writing, vocab, grammar, plan, band, greeting, other), and returns authored copy that already knows Adnan is 6.0 aiming at 7.0 with fluency as the leak. A lone “?” or the word “offline” throws a timeout so Retry is a real path. Thread is stored on device (`storageKeys.mentorThread`).
+
+**Voice.** Mira never congratulates. She names the next block and links into Phase 07 routes. Thinking / typing is a pulsing mark plus two kickers (“Listening” / “Writing it down”), same honesty as speaking analyzing.
+
+**Decisions made during the build**
+
+- **Chips send a prompt**, they do not mutate `planService`. “Add to the plan” means open today’s session or `/plan-change` from an action. Swapping the bench stays on Today.
+- **Conversation practice with criterion scores** (APP_DESCRIPTION §7) is not this phase. 07D is the speaking coach.
+- **Home is the tab; the thread is a stack.** Same split as Practice hub vs `/practice/speaking`.
+
+**Verified.** `tsc --noEmit` clean, `expo lint` clean. Chrome walkthrough: Mira tab → Speaking 5.5 → 7 chip → Listening / Writing it down → reply with session + speaking actions → study plan → “?” dropped line → Retry.
+
+**Not done, by design.** Phase 09 mocks, progress dashboard, mistake notebook. Real LLM. Voice conversation inside chat.
+
+**Still to confirm on device.** Keyboard avoiding on a physical phone, thread after an app kill.
 
 ### Phase 07E — Vocabulary + Grammar · ✅
 

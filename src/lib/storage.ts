@@ -11,6 +11,7 @@ export const storageKeys = {
   writingDrafts: 'bandmate.writing-drafts',
   readingSaved: 'bandmate.reading-saved',
   vocabularyProgress: 'bandmate.vocabulary-progress',
+  mentorThread: 'bandmate.mentor-thread',
 } as const;
 
 export type StorageKey = (typeof storageKeys)[keyof typeof storageKeys];

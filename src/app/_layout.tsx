@@ -71,6 +71,7 @@ function RootNavigator() {
           <Stack.Screen name="(modals)" options={{ presentation: 'modal' }} />
           <Stack.Screen name="session" />
           <Stack.Screen name="practice" />
+          <Stack.Screen name="mira" />
           <Stack.Screen name="mock" />
           <Stack.Screen name="progress" />
           <Stack.Screen name="mistakes" />

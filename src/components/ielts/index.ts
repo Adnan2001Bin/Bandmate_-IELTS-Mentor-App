@@ -59,6 +59,16 @@ export {
 } from './grammar-question';
 export { ExplanationCard, type ExplanationCardProps } from './explanation-card';
 export { PracticeResult, type PracticeResultProps } from './practice-result';
+export {
+  MentorMessageBubble,
+  type MentorMessageProps,
+} from './mentor-message';
+export {
+  MentorComposer,
+  MentorPromptChip,
+  type MentorComposerProps,
+} from './mentor-composer';
+export { MentorStatus, type MentorPhase, type MentorStatusProps } from './mentor-status';
 export { WordCounter, type WordCounterProps } from './word-counter';
 export { WritingEditor, type WritingEditorProps } from './writing-editor';
 export { WritingVisual, type WritingVisualProps } from './writing-visual';

@@ -41,4 +41,8 @@ export const queryKeys = {
     lessons: ['grammar', 'lessons'] as const,
     lesson: (id: string) => ['grammar', 'lesson', id] as const,
   },
+  mentor: {
+    home: ['mentor', 'home'] as const,
+    thread: ['mentor', 'thread'] as const,
+  },
 };

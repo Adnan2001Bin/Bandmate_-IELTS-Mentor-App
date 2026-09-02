@@ -10,6 +10,7 @@ import type {
   SpeakingService,
   VocabularyService,
   GrammarService,
+  MentorService,
   WritingService,
 } from './contracts';
 import { mockAuthService } from './mock/auth';
@@ -22,6 +23,7 @@ import { mockReadingService } from './mock/reading';
 import { mockSpeakingService } from './mock/speaking';
 import { mockVocabularyService } from './mock/vocabulary';
 import { mockGrammarService } from './mock/grammar';
+import { mockMentorService } from './mock/mentor';
 import { mockWritingService } from './mock/writing';
 
 /**
@@ -41,6 +43,7 @@ type ServiceRegistry = {
   speaking: SpeakingService;
   vocabulary: VocabularyService;
   grammar: GrammarService;
+  mentor: MentorService;
 };
 
 const mockServices: ServiceRegistry = {
@@ -55,6 +58,7 @@ const mockServices: ServiceRegistry = {
   speaking: mockSpeakingService,
   vocabulary: mockVocabularyService,
   grammar: mockGrammarService,
+  mentor: mockMentorService,
 };
 
 function resolveServices(): ServiceRegistry {
