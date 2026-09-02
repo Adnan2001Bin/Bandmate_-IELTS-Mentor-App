@@ -12,3 +12,9 @@ export type {
   WritingSubmitInput,
 } from './writing';
 export type { SpeakingService, SpeakingSubmitInput } from './speaking';
+export type {
+  VocabularyService,
+  VocabReviewInput,
+  VocabQuizSubmitInput,
+} from './vocabulary';
+export type { GrammarService, GrammarSubmitInput } from './grammar';

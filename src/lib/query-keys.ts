@@ -28,4 +28,17 @@ export const queryKeys = {
     topics: ['speaking', 'topics'] as const,
     topic: (id: string) => ['speaking', 'topic', id] as const,
   },
+  vocabulary: {
+    overview: ['vocabulary', 'overview'] as const,
+    categories: ['vocabulary', 'categories'] as const,
+    category: (id: string) => ['vocabulary', 'category', id] as const,
+    word: (id: string) => ['vocabulary', 'word', id] as const,
+    quiz: (id: string) => ['vocabulary', 'quiz', id] as const,
+    due: ['vocabulary', 'due'] as const,
+    difficult: ['vocabulary', 'difficult'] as const,
+  },
+  grammar: {
+    lessons: ['grammar', 'lessons'] as const,
+    lesson: (id: string) => ['grammar', 'lesson', id] as const,
+  },
 };

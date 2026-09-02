@@ -5,3 +5,5 @@ export * from './reading';
 export * from './user';
 export * from './writing';
 export * from './speaking';
+export * from './vocabulary';
+export * from './grammar';

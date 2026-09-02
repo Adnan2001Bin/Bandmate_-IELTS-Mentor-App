@@ -49,6 +49,16 @@ export { SkillCard, type SkillCardProps } from './skill-card';
 export { StreakStrip, type StreakStripProps } from './streak-strip';
 export { TestProgress, type TestProgressProps } from './test-progress';
 export { TestTimer, type TestTimerProps } from './test-timer';
+export { VocabularyCard, type VocabularyCardProps } from './vocabulary-card';
+export { VocabularyDetail, type VocabularyDetailProps } from './vocabulary-detail';
+export { GrammarLesson, type GrammarLessonProps } from './grammar-lesson';
+export {
+  GrammarQuestion,
+  type GrammarQuestionItem,
+  type GrammarQuestionProps,
+} from './grammar-question';
+export { ExplanationCard, type ExplanationCardProps } from './explanation-card';
+export { PracticeResult, type PracticeResultProps } from './practice-result';
 export { WordCounter, type WordCounterProps } from './word-counter';
 export { WritingEditor, type WritingEditorProps } from './writing-editor';
 export { WritingVisual, type WritingVisualProps } from './writing-visual';

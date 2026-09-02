@@ -10,6 +10,8 @@ import { LISTENING_LIBRARY_HREF } from '@/features/listening';
 import { usePlanActions, useTodayPlan } from '@/features/plan/use-today-plan';
 import { READING_LIBRARY_HREF } from '@/features/reading';
 import { SPEAKING_LIBRARY_HREF } from '@/features/speaking';
+import { VOCABULARY_LIBRARY_HREF } from '@/features/vocabulary';
+import { GRAMMAR_LIBRARY_HREF } from '@/features/grammar';
 import { WRITING_LIBRARY_HREF } from '@/features/writing';
 
 /**
@@ -57,7 +59,9 @@ export default function SessionRunnerScreen() {
     current.area === 'listening' ||
     current.area === 'reading' ||
     current.area === 'writing' ||
-    current.area === 'speaking';
+    current.area === 'speaking' ||
+    current.area === 'vocabulary' ||
+    current.area === 'grammar';
 
   return (
     <Screen edges={['top', 'bottom']}>
@@ -107,6 +111,20 @@ export default function SessionRunnerScreen() {
             label="Open speaking set"
             trailingIcon={ArrowRight}
             onPress={() => router.push(SPEAKING_LIBRARY_HREF)}
+          />
+        ) : null}
+        {current.area === 'vocabulary' ? (
+          <Button
+            label="Open vocabulary set"
+            trailingIcon={ArrowRight}
+            onPress={() => router.push(VOCABULARY_LIBRARY_HREF)}
+          />
+        ) : null}
+        {current.area === 'grammar' ? (
+          <Button
+            label="Open grammar lesson"
+            trailingIcon={ArrowRight}
+            onPress={() => router.push(GRAMMAR_LIBRARY_HREF)}
           />
         ) : null}
         <Button

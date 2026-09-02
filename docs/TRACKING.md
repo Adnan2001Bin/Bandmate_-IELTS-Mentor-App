@@ -2,9 +2,9 @@
 
 Living document. Updated at the end of every phase.
 
-- **Current phase:** 07D — Speaking
-- **Status:** Complete — typecheck, lint, and a library → brief → Part 1 record → Part 2 prep → speak → Part 3 → analyzing → debrief/transcript walkthrough all pass
-- **Next phase:** 07E — Vocabulary + Grammar (do not start without an explicit prompt)
+- **Current phase:** 07E — Vocabulary + Grammar
+- **Status:** Complete — typecheck, lint, and a Chrome walkthrough of vocab (library → set → word → quiz → review → difficult) and grammar (lesson → drill → result → practice again)
+- **Next phase:** 08 — AI mentor (do not start without an explicit prompt)
 
 ---
 
@@ -99,7 +99,7 @@ The deck (`Bandmate.dc.html`) applies the **Modernist** design system to a phone
 | 07B | Reading | ✅ Complete |
 | 07C | Writing | ✅ Complete |
 | 07D | Speaking | ✅ Complete |
-| 07E | Vocabulary + Grammar | ⬜ Not started |
+| 07E | Vocabulary + Grammar | ✅ Complete |
 | 08 | AI mentor (Mira) | ⬜ Not started |
 | 09 | Mock tests + progress + weaknesses + mistakes | ⬜ Not started |
 | 10 | Profile + settings | ⬜ Not started |
@@ -207,19 +207,19 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done
 - ✅ Transcript with timestamps ("hear yourself — 0:41")
 
 ### Vocabulary — Phase 07E
-- ⬜ Categories
-- ⬜ Word list
-- ⬜ Word detail — meaning, example, synonyms, IELTS context
-- ⬜ Practice / quiz
-- ⬜ Spaced-repetition review session
-- ⬜ Difficult words
+- ✅ Categories
+- ✅ Word list
+- ✅ Word detail — meaning, example, synonyms, IELTS context
+- ✅ Practice / quiz
+- ✅ Spaced-repetition review session
+- ✅ Difficult words
 
 ### Grammar — Phase 07E
-- ⬜ Categories
-- ⬜ Lesson
-- ⬜ Practice questions
-- ⬜ Explanation
-- ⬜ Result / practice again
+- ✅ Categories
+- ✅ Lesson
+- ✅ Practice questions
+- ✅ Explanation
+- ✅ Result / practice again
 
 ### Mira — Phase 08
 - ⬜ Chat — daily check-in, suggested prompts, action chips that add to the plan
@@ -320,11 +320,12 @@ In `src/components/layout`.
 - ✅ `CoachingCard`
 - ✅ `CueCard`
 - ✅ `Transcript`
-- ⬜ `VocabularyCard`
-- ⬜ `VocabularyDetail`
-- ⬜ `GrammarLesson`
-- ⬜ `GrammarQuestion`
-- ⬜ `ExplanationCard`
+- ✅ `VocabularyCard`
+- ✅ `VocabularyDetail`
+- ✅ `GrammarLesson`
+- ✅ `GrammarQuestion`
+- ✅ `ExplanationCard`
+- ✅ `PracticeResult`
 - ⬜ `TrajectoryChart` (bar columns, dashed = projected)
 - ✅ `StreakStrip`
 - ⬜ `LeagueRow`
@@ -345,8 +346,8 @@ In `src/components/layout`.
 - ✅ Writing: typed submission, auto-save, draft recovery, AI evaluation, sentence feedback
 - ✅ Writing: handwritten submission with simulated OCR
 - ✅ Speaking: parts 1–3, recording, live coaching, debrief, transcript
-- ⬜ Vocabulary + spaced-repetition review
-- ⬜ Grammar lessons + practice
+- ✅ Vocabulary + spaced-repetition review
+- ✅ Grammar lessons + practice
 - ⬜ Mira chat with user context (band, target, weaknesses, recent practice)
 - ⬜ AI states: thinking / typing / responding / error / retry
 - ⬜ Full mock test flow + band report + plan change
@@ -375,8 +376,8 @@ In `src/components/layout`.
 - ✅ `readingService`
 - ✅ `writingService` (tasks, drafts, evaluation, simulated OCR)
 - ✅ `speakingService` (topics, recording, evaluation)
-- ⬜ `vocabularyService`
-- ⬜ `grammarService`
+- ✅ `vocabularyService`
+- ✅ `grammarService`
 - ⬜ `mockTestService`
 - ⬜ `progressService` (forecast, history, analytics)
 - ⬜ `weaknessService`
@@ -391,8 +392,8 @@ In `src/components/layout`.
 - ✅ Reading passages (Academic + General Training, all required question types). Full 40-question mock remains Phase 09.
 - ✅ Writing tasks (Task 1 Academic charts + GT letters, Task 2 essay types) + model evaluations
 - ✅ Speaking topics (parts 1–3, cue cards) + model debriefs
-- ⬜ Vocabulary (11 categories, word entries with synonyms/examples/IELTS context)
-- ⬜ Grammar (11 categories, lessons, questions, explanations)
+- ✅ Vocabulary (11 categories, word entries with synonyms/examples/IELTS context)
+- ✅ Grammar (11 categories, lessons, questions, explanations)
 - ⬜ Mock tests + band reports
 - ⬜ Mistake bank entries across all skills
 - ⬜ Score history / trajectory
@@ -464,6 +465,29 @@ Filled in from Phase 04 onward; verified in full at Phase 12.
 ---
 
 ## 12. Phase log
+
+### Phase 07E — Vocabulary + Grammar · ✅
+
+**Support skills, not papers.** Eleven original vocabulary topics (Education tagged Today) and eleven grammar lessons (Articles tagged Today). No official IELTS skill band on these drills. `PracticeResult` is correct/total + XP + Mira’s pattern. Mira never says “Correct!”.
+
+**Vocabulary.** Library (due / held / hard counts) → set → word detail (meaning, example, synonyms, antonyms, IELTS context) → mini quiz (meaning / gap / synonym) → result. Review is a 1 / 2 / 4 / 7 / 14-day clock persisted on device (`storageKeys.vocabularyProgress`). Difficult words are misses and explicit “Mark as hard”. Seeded due queue so the first review is not empty.
+
+**Grammar.** Library → lesson (learn) → practice (Check, then why) → result → practice again. Correct is ink; wrong is accent.
+
+**Screens read `vocabularyService` / `grammarService`.** Session CTAs: **Open vocabulary set** / **Open grammar lesson**. Bench already has an articles brief.
+
+**Decisions made during the build**
+
+- **No skill band.** Vocab and grammar are support. A listening-style band would pretend they are papers.
+- **SRS is a box + due date**, not a live model. Know advances the box; miss marks hard and due tomorrow.
+- **Review keeps its own word list** so grading a card cannot empty the queue mid-session.
+- **Quiz Check still interrupts.** Same tutor habit as listening practice.
+
+**Verified.** `tsc --noEmit` clean, `expo lint` clean (unused import fixed). Chrome walkthrough on Expo web: Practice hub (Vocabulary and Grammar tagged Support) → Education (Today) → word detail (meaning, example, synonyms, antonyms, IELTS context) → mini quiz Check/Next → 4/4 result with XP and no skill band; due count dropped after the quiz. Review: reveal → knew / missed → 1/2 result. Difficult list showed `workload`. Grammar: Articles lesson → miss on Q1 (“You chose The. The line wants — (no article).”) → 3/4 result → Practice again.
+
+**Not done, by design.** Mira chat (Phase 08). Real spaced-repetition notifications. Cross-skill mistake notebook (Phase 09).
+
+**Still to confirm on device.** Review after an app kill, quiz → due count update, and grammar Check on a physical phone.
 
 ### Phase 07D — Speaking · ✅
 

@@ -10,6 +10,7 @@ export const storageKeys = {
   onboardingProfile: 'bandmate.onboarding-profile',
   writingDrafts: 'bandmate.writing-drafts',
   readingSaved: 'bandmate.reading-saved',
+  vocabularyProgress: 'bandmate.vocabulary-progress',
 } as const;
 
 export type StorageKey = (typeof storageKeys)[keyof typeof storageKeys];
