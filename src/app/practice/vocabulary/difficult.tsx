@@ -28,7 +28,8 @@ export default function VocabDifficultScreen() {
   if (isError) {
     return (
       <Screen edges={['top', 'bottom']}>
-        <View className="px-6 pt-8">
+        <AppHeader title="Difficult" kicker="Vocabulary" size="compact" onBack={() => router.back()} />
+        <View className="px-6 pt-6">
           <ErrorState onRetry={() => void refetch()} />
         </View>
       </Screen>

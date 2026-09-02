@@ -44,7 +44,12 @@ export default function VocabularyLibraryScreen() {
       <Screen edges={['top', 'bottom']}>
         <AppHeader title="Vocabulary" kicker="Practice" size="compact" onBack={() => router.back()} />
         <View className="px-6 pt-6">
-          <ErrorState onRetry={() => void refetch()} />
+          <ErrorState
+            onRetry={() => {
+              void refetch();
+              void overview.refetch();
+            }}
+          />
         </View>
       </Screen>
     );

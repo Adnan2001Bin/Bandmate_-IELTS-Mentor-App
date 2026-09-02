@@ -2,9 +2,9 @@
 
 Living document. Updated at the end of every phase.
 
-- **Current phase:** 11 — UI polish
-- **Status:** Complete — typecheck, lint, and a Chrome spot-check of Profile, Settings, History, Listening/Writing copy, and Mira home
-- **Next phase:** 12 — QA + final verification (do not start without an explicit prompt)
+- **Current phase:** 12 — QA + final verification
+- **Status:** Complete — typecheck, lint, and a Chrome walkthrough of navigation, all six skills, Mira, mock sitting, progress, forms, and dark theme
+- **Next phase:** none — this is the last planned phase
 
 ---
 
@@ -104,7 +104,7 @@ The deck (`Bandmate.dc.html`) applies the **Modernist** design system to a phone
 | 09 | Mock tests + progress + weaknesses + mistakes | ✅ Complete |
 | 10 | Profile + settings | ✅ Complete |
 | 11 | UI polish | ✅ Complete |
-| 12 | QA + final verification | ⬜ Not started |
+| 12 | QA + final verification | ✅ Complete |
 
 ---
 
@@ -255,6 +255,12 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done
 - ✅ Auth + diagnostic result use `Screen`; result plan is a `MiraNote`
 - ✅ Leftover “Phase 09” / backend copy rewritten in Mira’s voice
 
+### QA — Phase 12
+- ✅ Required MVP surfaces reachable (web); 404 empty state
+- ✅ Grammar drill, writing evaluation, listening/reading runners, speaking run, Mira reply, mock band report
+- ✅ Sign-in validation; returning sign-in keeps the stored name
+- ✅ Dark appearance sets `html.dark`; restored to System after the pass
+
 ---
 
 ## 6. Component checklist
@@ -367,8 +373,8 @@ In `src/components/layout`.
 - ✅ Mistake notebook across all skills
 - ✅ Gamification: XP, streak, opt-in league (secondary, never leads)
 - ✅ Light / dark / system appearance, persisted
-- ⬜ Haptics on answer, recording, completion
-- ⬜ Loading / empty / error states on every data surface
+- ✅ Haptics on answer, recording, tab change, chat send, diagnostic capture (not felt on web)
+- 🟡 Loading / empty / error states on library and hub surfaces; some nested runners omit the compact header on error
 
 **Explicitly out of scope for the mobile frontend:** admin panel (§28 — a separate web product), real backend, real AI/LLM, real speech-to-text, real OCR, real payments.
 
@@ -456,25 +462,41 @@ Filled in from Phase 04 onward; verified in full at Phase 12.
 - ✅ Lint passes
 - ✅ Metro produces an Android bundle
 - ✅ Tailwind compiles the palette to `:root` / `.dark:root` variables
-- ⬜ Every screen reachable; no dead ends
-- ⬜ Back navigation correct on iOS and Android
-- ⬜ Light theme verified on every screen
-- ⬜ Dark theme verified on every screen
-- ⬜ System theme follows the OS live
+- ✅ Every required screen reachable on web; unknown URLs hit `+not-found`
+- 🟡 Back: compact headers expose Go back on web. Hardware back on iOS/Android still a device check
+- ✅ Light theme (default walkthrough)
+- ✅ Dark theme (Settings → Dark; Progress rendered under `html.dark`)
+- ⬜ System theme follows the OS live (token exists; OS change not exercised this pass)
 - ⬜ Safe areas correct (notch, dynamic island, gesture bar)
 - ⬜ No layout overflow at small and large text sizes
-- ⬜ Keyboard behavior in the writing editor and chat
+- ⬜ Keyboard behavior in the writing editor and chat (native)
 - ⬜ Timers, audio, and recording states behave on background/foreground
 - ✅ Form validation and error states
-- ⬜ Loading / empty / error state on every data surface
-- ⬜ Lists virtualized where long
-- ⬜ Animations run on the UI thread
-- ⬜ No debug logs, placeholder text, or unused files
-- ⬜ UI depends only on service interfaces, never on mock modules directly
+- 🟡 Loading / empty / error on hubs and libraries; nested runner errors often skip the header
+- ⬜ Lists virtualized where long (current lists are short; not added)
+- ✅ Animations run on the UI thread (Reanimated)
+- ✅ No debug `console` calls in `src/`; Placeholder routes are gone
+- ✅ UI depends only on service interfaces, never on mock modules directly
 
 ---
 
 ## 12. Phase log
+
+### Phase 12 — QA + final verification · ✅
+
+**No new features.** A frontend QA pass against `APP_DESCRIPTION.md` MVP, plus code-quality checks. Three small defects were fixed: vocabulary error retry now refetches the overview; sign-in keeps the stored profile name instead of resetting to the seed “Adnan”; Difficult-words error gained a back header.
+
+**Navigation.** 33 routes opened on Chrome. Today, session, six practice libraries and a brief each, vocab review/hard, grammar lesson, mock hub/lobby/reports, Mira home/plan/chat, progress/history/weaknesses, mistakes + detail, profile/goals/settings, design-system, and `+not-found`. No dead product routes. Compact **Go back** worked on nested screens.
+
+**Skills and AI (mocked).** Grammar Articles 4/4 → result. Writing Task 2 untimed, under-length confirm, mock evaluation 5.0 labelled AI estimated. Listening Section 1 runner: player + form blank + Check. Reading rain-gardens runner: TFNG + Check. Speaking hometown run loads the Part 1 prompt and clock metrics (no microphone on web). Mira accepted “Why is fluency the leak?” and replied from bands. Academic mock: four early paper submits → band report 6.0, honest read, recut CTA.
+
+**Forms and theme.** Empty sign-in shows email and password Zod messages. Sign-out lands on Welcome; sign-in with `mira@example.com` returns to Today; Profile still reads **Adnan R**. Dark sets `html.dark` on Progress; appearance restored to System.
+
+**Code quality.** `tsc --noEmit` clean, `expo lint` clean. Screens/features/components do not import `@/mocks` or `@/services/mock`. Hex lives in the palette. No `console.log` in `src/`. Reanimated owns pulses, progress fill, sheets. `react-native-svg` stays — Lucide needs it — even though app code never imports it.
+
+**Device still to confirm.** Hardware back, safe areas, Dynamic Type overflow, native keyboard on chat/writing, audio/recording through background, System following the OS live, and haptic feel. Diagnostic was not re-sat (would overwrite this profile); it remains route-guarded after onboarding.
+
+**Not a product gap in this frontend.** Admin panel, real LLM, real STT/OCR, real payments, push server, live Cambridge papers, recutting Today from daily minutes.
 
 ### Phase 11 — UI polish · ✅
 

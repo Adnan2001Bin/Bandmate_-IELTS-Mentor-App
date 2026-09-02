@@ -15,8 +15,8 @@ import { GRAMMAR_LIBRARY_HREF } from '@/features/grammar';
 import { WRITING_LIBRARY_HREF } from '@/features/writing';
 
 /**
- * Chains today's tasks. The actual listening / writing / speaking modules are
- * Phase 07 — this shell walks you from one brief to the next.
+ * Chains today's tasks. Each brief opens the matching practice module; marking
+ * done walks the rest of the queue.
  */
 export default function SessionRunnerScreen() {
   const router = useRouter();
