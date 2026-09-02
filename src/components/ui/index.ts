@@ -11,6 +11,8 @@ export { Monogram, type MonogramProps, type MonogramSize } from './monogram';
 export { ProgressBar, type ProgressBarProps } from './progress-bar';
 export { Rule, type RuleProps, type RuleWeight } from './rule';
 export { Screen, type ScreenProps } from './screen';
+export { SettingsSection, type SettingsSectionProps } from './settings-section';
+export { SettingsToggle, type SettingsToggleProps } from './settings-toggle';
 export {
   SegmentedControl,
   type SegmentedControlProps,

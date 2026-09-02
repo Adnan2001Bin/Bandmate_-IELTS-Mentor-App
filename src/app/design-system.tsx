@@ -21,6 +21,7 @@ import {
   Screen,
   SegmentedControl,
   SelectionRow,
+  SettingsToggle,
   Skeleton,
   StatCell,
   StepProgress,
@@ -50,6 +51,7 @@ export default function DesignSystemScreen() {
   const [essay, setEssay] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [reminderOn, setReminderOn] = useState(true);
 
   const { data, isPending, isError, refetch } = useQuery({
     queryKey: queryKeys.profile,
@@ -216,6 +218,21 @@ export default function DesignSystemScreen() {
             />
             <Rule />
             <ListRow label="Speaking" value="Part 2" icon={Mic} />
+          </View>
+          <View className="border-y border-divider">
+            <SettingsToggle
+              label="Daily reminder"
+              description="When today’s session is still waiting."
+              value={reminderOn}
+              onChange={setReminderOn}
+            />
+            <Rule />
+            <SettingsToggle
+              label="Writing nudge"
+              description="If you have not written this week."
+              value={!reminderOn}
+              onChange={(next) => setReminderOn(!next)}
+            />
           </View>
         </Section>
 

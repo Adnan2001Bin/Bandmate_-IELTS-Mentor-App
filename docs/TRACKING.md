@@ -2,9 +2,9 @@
 
 Living document. Updated at the end of every phase.
 
-- **Current phase:** 09 — Mock tests + progress + weaknesses + mistakes
-- **Status:** Complete — typecheck, lint, and a Chrome walkthrough of Mock tab → Academic lobby → four papers → band report → recut plan; Progress (forecast, trajectory, league opt-in) → history → weaknesses; Mistakes → detail → practice again
-- **Next phase:** 10 — Profile + settings (do not start without an explicit prompt)
+- **Current phase:** 10 — Profile + settings
+- **Status:** Complete — typecheck, lint, and a Chrome walkthrough of Profile hub (name, bands, history) → Goals (save 20 min) → Settings (notifications, appearance, name) → History
+- **Next phase:** 11 — UI polish (do not start without an explicit prompt)
 
 ---
 
@@ -102,7 +102,7 @@ The deck (`Bandmate.dc.html`) applies the **Modernist** design system to a phone
 | 07E | Vocabulary + Grammar | ✅ Complete |
 | 08 | AI mentor (Mira) | ✅ Complete |
 | 09 | Mock tests + progress + weaknesses + mistakes | ✅ Complete |
-| 10 | Profile + settings | ⬜ Not started |
+| 10 | Profile + settings | ✅ Complete |
 | 11 | UI polish | ⬜ Not started |
 | 12 | QA + final verification | ⬜ Not started |
 
@@ -241,12 +241,12 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done
 - ✅ Mistake notebook — list, categories, detail, practice again
 
 ### Profile & settings — Phase 10
-- ⬜ Profile hub — links to progress, mistakes, vocabulary, history, goals, settings
-- ⬜ Goals — target band, exam date, daily target
-- ⬜ Appearance — Light / Dark / System
-- ⬜ Notifications
-- ⬜ Account
-- ⬜ Subscription (see open decision §10)
+- ✅ Profile hub — links to progress, mistakes, vocabulary, history, goals, settings
+- ✅ Goals — target band, exam date, daily target
+- ✅ Appearance — Light / Dark / System
+- ✅ Notifications
+- ✅ Account
+- ✅ Subscription (static — no payments in this build; open decision §10)
 
 ---
 
@@ -275,6 +275,8 @@ All in `src/components/ui`, exported from one barrel.
 - ✅ `EmptyState`
 - ✅ `ErrorState` (pairs with `ServiceError`, optional retry)
 - ✅ `InkPanel` (inverted emphasis block)
+- ✅ `SettingsSection` (kicker + ruled block + optional footer)
+- ✅ `SettingsToggle` (square switch, ink when on)
 - ❌ `ProgressRing` — **not built.** Listed in `DEVELOPMENT_PLAN.md`, but the design language expresses progress as bars and rules and contains no circular geometry. Add it only if a screen genuinely needs one.
 
 ### Shell — Phase 04
@@ -357,7 +359,7 @@ In `src/components/layout`.
 - ✅ Weakness detection dashboard
 - ✅ Mistake notebook across all skills
 - ✅ Gamification: XP, streak, opt-in league (secondary, never leads)
-- ⬜ Light / dark / system appearance, persisted
+- ✅ Light / dark / system appearance, persisted
 - ⬜ Haptics on answer, recording, completion
 - ⬜ Loading / empty / error states on every data surface
 
@@ -384,7 +386,7 @@ In `src/components/layout`.
 - ✅ `progressService` (forecast, history, analytics, weaknesses, league)
 - ✅ `mistakeService` (weaknesses live on `progressService`, not a second contract)
 - ✅ `mentorService` (Mira chat + contextual responses)
-- ✅ `profileService` — contract + mock
+- ✅ `profileService` — contract + mock; study profile, display name, notification prefs
 
 ### Mock data sets
 - ✅ User profile + goals + streak + XP
@@ -466,6 +468,29 @@ Filled in from Phase 04 onward; verified in full at Phase 12.
 ---
 
 ## 12. Phase log
+
+### Phase 10 — Profile + settings · ✅
+
+**The fifth tab is a desk, not a dump.** The hub reads `profileService`: name, monogram, streak, current / target / days to test, then Learning (progress, history, mistakes, vocabulary) and Account (goals, settings). Design system stays at the bottom, labelled development-only. No hardcoded “Atlas Rahman”.
+
+**Goals edit the study profile.** Target band, test date (same feasibility rule as onboarding), Academic / GT, why this score, daily minutes. 18 minutes from onboarding stays selectable until they pick a slot. Save writes `updateStudyProfile` and invalidates Today’s countdown. The task chain is still the seed — the screen says so.
+
+**Settings uses the existing theme.** Light / Dark / System is the Phase 03 provider, not a second palette. Notifications are five square toggles stored on device; nothing is pushed. Account can rename the learner (session + profile). Email is display-only. Plan is a static honesty block: this build has no payments.
+
+**Reusable rows.** `SettingsSection` and `SettingsToggle` (ink square, never a pill). Gallery includes the toggle.
+
+**Decisions made during the build**
+
+- **No fake paywall.** Open decision §10 still holds. A locked Premium screen would pretend to charge.
+- **No push notifications.** Prefs persist (`storageKeys.notificationPrefs`). Copy says there is no server.
+- **Identity merge.** Sign-in email lives on the session; study data lives on the profile. `getProfile` overlays the session name and email so the hub matches who signed in.
+- **Daily minutes keep 18.** The onboarding default is not in the 10 / 20 / 40 / 60 slots, so Goals shows it until they change it.
+
+**Verified.** `tsc --noEmit` clean, `expo lint` clean. Chrome walkthrough: Profile hub (Adnan, 6.0 / 7.0, 26 days) → Goals (18 min slot) → save Twenty minutes (18 slot gone on return) → Settings (notifications, Dark, rename Adnan R, monogram AR) → History from the hub. Appearance restored to System after the pass. Cursor IDE browser MCP was unavailable; walkthrough used Chrome `--remote-debugging-port=9222`.
+
+**Not done, by design.** UI polish (Phase 11). Real payments. Real push. Email change. Recutting Today’s task list from a new daily-minutes value.
+
+**Still to confirm on device.** Date picker on Goals (Android dialog / iOS sheet), appearance following the OS, and hardware back from Settings to Profile.
 
 ### Phase 09 — Tests, progress, weaknesses, mistakes · ✅
 

@@ -33,3 +33,12 @@ export type AuthSession = {
   /** False until onboarding and the diagnostic are done. */
   hasCompletedOnboarding: boolean;
 };
+
+/** Preference flags only. This build does not push notifications. */
+export type NotificationPrefs = {
+  dailyReminder: boolean;
+  streak: boolean;
+  vocabDue: boolean;
+  writingNudge: boolean;
+  examCountdown: boolean;
+};

@@ -63,4 +63,7 @@ export const queryKeys = {
     list: (area: string) => ['mistakes', 'list', area] as const,
     item: (id: string) => ['mistakes', 'item', id] as const,
   },
+  settings: {
+    notifications: ['settings', 'notifications'] as const,
+  },
 };

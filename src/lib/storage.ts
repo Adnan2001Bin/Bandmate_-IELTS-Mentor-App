@@ -14,6 +14,7 @@ export const storageKeys = {
   mentorThread: 'bandmate.mentor-thread',
   mockReports: 'bandmate.mock-reports',
   leagueOptIn: 'bandmate.league-opt-in',
+  notificationPrefs: 'bandmate.notification-prefs',
 } as const;
 
 export type StorageKey = (typeof storageKeys)[keyof typeof storageKeys];
