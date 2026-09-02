@@ -2,9 +2,9 @@
 
 Living document. Updated at the end of every phase.
 
-- **Current phase:** 10 — Profile + settings
-- **Status:** Complete — typecheck, lint, and a Chrome walkthrough of Profile hub (name, bands, history) → Goals (save 20 min) → Settings (notifications, appearance, name) → History
-- **Next phase:** 11 — UI polish (do not start without an explicit prompt)
+- **Current phase:** 11 — UI polish
+- **Status:** Complete — typecheck, lint, and a Chrome spot-check of Profile, Settings, History, Listening/Writing copy, and Mira home
+- **Next phase:** 12 — QA + final verification (do not start without an explicit prompt)
 
 ---
 
@@ -103,7 +103,7 @@ The deck (`Bandmate.dc.html`) applies the **Modernist** design system to a phone
 | 08 | AI mentor (Mira) | ✅ Complete |
 | 09 | Mock tests + progress + weaknesses + mistakes | ✅ Complete |
 | 10 | Profile + settings | ✅ Complete |
-| 11 | UI polish | ⬜ Not started |
+| 11 | UI polish | ✅ Complete |
 | 12 | QA + final verification | ⬜ Not started |
 
 ---
@@ -248,6 +248,13 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done
 - ✅ Account
 - ✅ Subscription (static — no payments in this build; open decision §10)
 
+### UI polish — Phase 11
+- ✅ Placeholder shell retired
+- ✅ Design system gated to `__DEV__`
+- ✅ Keyboard: Screen insets, Android `resize`, chat/writing/auth dismiss-on-drag
+- ✅ Auth + diagnostic result use `Screen`; result plan is a `MiraNote`
+- ✅ Leftover “Phase 09” / backend copy rewritten in Mira’s voice
+
 ---
 
 ## 6. Component checklist
@@ -284,7 +291,7 @@ In `src/components/layout`.
 
 - ✅ `AppHeader` (kicker + title, optional back, optional trailing action, display / compact)
 - ✅ `AppTabBar` (2px top rule, 3px accent rule over the active tab, haptic on change)
-- ✅ `Placeholder` (a route that exists so navigation can be built before its feature — every one names the phase that replaces it)
+- ✅ `Placeholder` — used while routes were empty; **retired in Phase 11** once every screen had real content
 
 ### Auth & onboarding — Phase 05
 - ✅ `OnboardingStep` (progress, back, pinned continue)
@@ -314,7 +321,7 @@ In `src/components/layout`.
 - ✅ `MistakeRow`
 - ✅ `WritingEditor`
 - ✅ `WordCounter`
-- ⬜ `InlineFlag` (underline + tint inside prose) — live flags are a list under the editor; overlaying a TextInput is Phase 11 if needed
+- ⬜ `InlineFlag` (underline + tint inside prose) — **not added.** Live flags stay a list under the writing editor. Overlaying a TextInput was considered in Phase 11 and skipped.
 - ✅ `SentenceFeedback`
 - ✅ `RewriteCompare`
 - ✅ `CriterionRow`
@@ -468,6 +475,30 @@ Filled in from Phase 04 onward; verified in full at Phase 12.
 ---
 
 ## 12. Phase log
+
+### Phase 11 — UI polish · ✅
+
+**No new features.** The pass is consistency, keyboard, and leftover scaffolding.
+
+**Scaffolding out.** `Placeholder` is gone — every route it held already has a real screen. The design-system gallery redirects home outside `__DEV__` and is hidden from Profile in production.
+
+**One shell.** Welcome, sign-in, and sign-up use `Screen` like the rest of the app. Diagnostic result uses `Screen` plus a `MiraNote` for the plan line (not a `Card` with an accent border). The score is labelled AI estimated.
+
+**Keyboard.** `Screen` scroll now adjusts for the keyboard and dismisses on drag. Android uses `softwareKeyboardLayoutMode: resize`. Chat, writing, and auth follow the same dismiss habit.
+
+**Copy.** Listening and writing no longer say “Phase 09”. Goals, mock recut, settings, and Mira chat drop lab notes (“backend”, “second palette”, “Mock tutor”) for Mira’s voice. Honesty stays where it is product: no live model, no payments, no push.
+
+**Decisions made during the pass**
+
+- **No InlineFlag overlay.** Writing flags stay a list under the editor. Painting inside a TextInput is a fight the keyboard would win.
+- **Diagnostic capture stays a dark `SafeAreaView`.** It is a booth, not a page.
+- **Did not restyle the product.** Spacing, type, and zero radius were already the system.
+
+**Verified.** `tsc --noEmit` clean, `expo lint` clean. Chrome: Profile (streak + monogram in one row; Development / Design system still listed because this is `__DEV__`) → Settings (“System follows your phone.”) → History → Listening intro (full sitting on Mock tab) → Writing intro (timed pair on Mock tab) → Mira home (no “Mock tutor”). Cursor IDE browser MCP was unavailable; walkthrough used Chrome remote debugging.
+
+**Not done, by design.** Full QA (Phase 12). Real keyboard feel on a physical phone.
+
+**Still to confirm on device.** iOS keyboard avoiding on chat and the writing editor, Android resize with edge-to-edge, and the diagnostic result `MiraNote` after a fresh sign-up.
 
 ### Phase 10 — Profile + settings · ✅
 

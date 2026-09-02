@@ -1,11 +1,10 @@
 import { Redirect } from 'expo-router';
 import { ArrowRight } from 'lucide-react-native';
 import { ScrollView, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { SkillBar } from '@/components/ielts';
+import { MiraNote, SkillBar } from '@/components/ielts';
 import { MiraMark } from '@/components/mira';
-import { Button, Card, Text } from '@/components/ui';
+import { Button, Screen, Text } from '@/components/ui';
 import { useCompleteOnboarding } from '@/features/onboarding/use-complete-onboarding';
 import { daysUntil } from '@/lib/date';
 import { useOnboardingStore } from '@/store';
@@ -30,7 +29,7 @@ export default function ResultScreen() {
   const weakest = twoWeakestBelowTarget(diagnostic.skills, study.targetBand);
 
   return (
-    <SafeAreaView className="flex-1 bg-background" edges={['top', 'bottom']}>
+    <Screen edges={['top', 'bottom']}>
       <View className="border-b-2 border-divider px-6 pb-5 pt-4">
         <Text variant="kicker" tone="subtle">
           Your starting point
@@ -41,7 +40,7 @@ export default function ResultScreen() {
           <View className="pb-1.5">
             <Text variant="label">ESTIMATED OVERALL</Text>
             <Text variant="caption" tone="muted" className="mt-0.5">
-              target {study.targetBand.toFixed(1)}
+              target {study.targetBand.toFixed(1)} · AI estimated — for practice only
             </Text>
           </View>
         </View>
@@ -69,16 +68,20 @@ export default function ResultScreen() {
           />
         ))}
 
-        <Card className="mt-5 border-l-4 border-l-primary">
-          <Text variant="kicker" tone="subtle">
-            The plan, in one line
-          </Text>
-          <Text variant="bodySm" className="mt-1">
-            {weakest.length > 0
-              ? `${listSkills(weakest)} get most of your time. The rest get maintenance sets, because they are nearly there already.`
-              : 'You are already at target across the board. We hold the line and rehearse under exam pressure.'}
-          </Text>
-        </Card>
+        <MiraNote
+          className="mt-5"
+          kicker="The plan, in one line"
+          title={
+            weakest.length > 0
+              ? `${listSkills(weakest)} get most of your time`
+              : 'You are already at target'
+          }
+          body={
+            weakest.length > 0
+              ? 'The rest get maintenance sets, because they are nearly there already.'
+              : 'We hold the line and rehearse under exam pressure.'
+          }
+        />
       </ScrollView>
 
       <View className="border-t-2 border-divider px-6 pb-2 pt-4">
@@ -116,7 +119,7 @@ export default function ResultScreen() {
           </Text>
         ) : null}
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 }
 

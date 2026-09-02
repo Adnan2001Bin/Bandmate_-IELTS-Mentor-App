@@ -131,9 +131,11 @@ export default function MiraChatScreen() {
           className="flex-1"
           contentContainerClassName="px-6 pt-4 pb-4"
           keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+          automaticallyAdjustKeyboardInsets
         >
           <Text variant="caption" tone="muted" className="mb-2">
-            Mock tutor. No live model. I already have your bands.
+            No live model. I already have your bands.
           </Text>
 
           {data.messages.map((item) => (

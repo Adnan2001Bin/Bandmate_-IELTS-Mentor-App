@@ -72,7 +72,8 @@ export default function MockPlanScreen() {
           onPress={() => router.replace('/')}
         />
         <Text variant="caption" tone="muted" className="mt-3">
-          Accept notes the recut. Today’s seed chain still shows until a backend writes a new day.
+          Accept notes the recut. Tomorrow’s session still shows today’s chain until I write a new
+          day.
         </Text>
       </View>
     </Screen>

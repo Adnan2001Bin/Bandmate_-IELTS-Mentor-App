@@ -1,10 +1,9 @@
 import { useRouter } from 'expo-router';
 import { ArrowRight, Clock, Mic, Target } from 'lucide-react-native';
 import { ScrollView, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { MiraMark } from '@/components/mira';
-import { Button, Rule, Text, type IconComponent } from '@/components/ui';
+import { Button, Rule, Screen, Text, type IconComponent } from '@/components/ui';
 import { iconSize, useTheme } from '@/theme';
 
 const PROMISES: readonly { icon: IconComponent; text: string }[] = [
@@ -18,7 +17,7 @@ export default function WelcomeScreen() {
   const { colors } = useTheme();
 
   return (
-    <SafeAreaView className="flex-1 bg-background" edges={['top', 'bottom']}>
+    <Screen edges={['top', 'bottom']}>
       <View className="border-b-2 border-divider px-6 pb-5 pt-4">
         <Text variant="h1">BANDMATE</Text>
         <Text variant="kicker" tone="muted" className="mt-1">
@@ -71,6 +70,6 @@ export default function WelcomeScreen() {
           className="px-0"
         />
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 }

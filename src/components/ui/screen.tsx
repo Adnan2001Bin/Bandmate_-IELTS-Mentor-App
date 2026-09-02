@@ -40,6 +40,8 @@ export function Screen({
           contentContainerStyle={{ paddingBottom: layout.sectionGap }}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+          automaticallyAdjustKeyboardInsets
         >
           {children}
         </ScrollView>

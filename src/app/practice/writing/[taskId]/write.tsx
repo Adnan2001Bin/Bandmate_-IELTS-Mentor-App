@@ -130,6 +130,7 @@ export default function WritingWriteScreen() {
           className="max-h-40"
           contentContainerClassName="px-6 pt-4 pb-2"
           keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
         >
           <Text variant="bodySm">{task.prompt}</Text>
           {task.visual ? (

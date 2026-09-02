@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'expo-router';
+import { Redirect, useRouter } from 'expo-router';
 import { ArrowRight, BookOpen, Headphones, Mic } from 'lucide-react-native';
 import { useState, type ReactNode } from 'react';
 import { View } from 'react-native';
@@ -56,7 +56,12 @@ export default function DesignSystemScreen() {
   const { data, isPending, isError, refetch } = useQuery({
     queryKey: queryKeys.profile,
     queryFn: () => services.profile.getProfile(),
+    enabled: __DEV__,
   });
+
+  if (!__DEV__) {
+    return <Redirect href="/" />;
+  }
 
   return (
     <Screen scroll>

@@ -120,7 +120,7 @@ export default function MiraHomeScreen() {
           onPress={() => router.push(miraChatHref())}
         />
         <Text variant="caption" tone="muted" className="mt-3">
-          Mock tutor. No live model. I answer from your bands and today’s plan.
+          No live model. I answer from your bands and today’s plan.
         </Text>
       </View>
 

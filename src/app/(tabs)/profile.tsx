@@ -77,9 +77,9 @@ export default function ProfileScreen() {
         title={data.user.name}
         kicker="You"
         action={
-          <View className="items-end gap-2">
-            <Monogram name={data.user.name} size="sm" />
+          <View className="flex-row items-center gap-3">
             <StreakStrip days={data.streakDays} />
+            <Monogram name={data.user.name} size="sm" />
           </View>
         }
       />
@@ -145,17 +145,19 @@ export default function ProfileScreen() {
         ))}
       </SettingsSection>
 
-      <SettingsSection
-        title="Development"
-        footer="Removed before a store build. Not a product screen."
-      >
-        <ListRow
-          label="Design system"
-          description="Component gallery"
-          icon={Palette}
-          onPress={() => router.push('/design-system')}
-        />
-      </SettingsSection>
+      {__DEV__ ? (
+        <SettingsSection
+          title="Development"
+          footer="Not in a store build."
+        >
+          <ListRow
+            label="Design system"
+            description="Component gallery"
+            icon={Palette}
+            onPress={() => router.push('/design-system')}
+          />
+        </SettingsSection>
+      ) : null}
     </Screen>
   );
 }

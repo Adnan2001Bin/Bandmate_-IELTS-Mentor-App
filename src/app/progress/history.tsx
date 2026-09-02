@@ -2,7 +2,7 @@ import { useRouter } from 'expo-router';
 import { View } from 'react-native';
 
 import { AppHeader } from '@/components/layout';
-import { ErrorState, ListRow, Rule, Screen, Skeleton, Text } from '@/components/ui';
+import { EmptyState, ErrorState, ListRow, Rule, Screen, Skeleton, Text } from '@/components/ui';
 import { useProgressHistory } from '@/features/progress';
 import type { HistoryKind } from '@/types';
 
@@ -59,16 +59,25 @@ export default function HistoryScreen() {
 
       <View className="px-6 pt-4">
         <Rule weight="section" />
-        {data.map((item) => (
-          <View key={item.id}>
-            <ListRow
-              label={item.title}
-              description={`${KIND_LABEL[item.kind]} · ${formatWhen(item.at)}`}
-              value={item.band !== null ? item.band.toFixed(1) : undefined}
+        {data.length === 0 ? (
+          <View className="py-6">
+            <EmptyState
+              title="Nothing on file yet"
+              description="Sessions, drills, and sittings land here as you work."
             />
-            <Rule />
           </View>
-        ))}
+        ) : (
+          data.map((item) => (
+            <View key={item.id}>
+              <ListRow
+                label={item.title}
+                description={`${KIND_LABEL[item.kind]} · ${formatWhen(item.at)}`}
+                value={item.band !== null ? item.band.toFixed(1) : undefined}
+              />
+              <Rule />
+            </View>
+          ))
+        )}
       </View>
     </Screen>
   );

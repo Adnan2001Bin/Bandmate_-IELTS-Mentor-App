@@ -4,11 +4,10 @@ import { useRouter } from 'expo-router';
 import { ArrowRight } from 'lucide-react-native';
 import { useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ControlledInput } from '@/components/form';
 import { AppHeader } from '@/components/layout';
-import { Button, Text } from '@/components/ui';
+import { Button, Screen, Text } from '@/components/ui';
 import { signInSchema, type SignInValues } from '@/features/auth/schemas';
 import { services } from '@/services';
 import { useSessionStore } from '@/store';
@@ -31,7 +30,7 @@ export default function SignInScreen() {
   });
 
   return (
-    <SafeAreaView className="flex-1 bg-background" edges={['top', 'bottom']}>
+    <Screen edges={['top', 'bottom']}>
       <AppHeader title="WELCOME BACK" kicker="Sign in" onBack={() => router.back()} />
 
       <KeyboardAvoidingView
@@ -42,6 +41,7 @@ export default function SignInScreen() {
           className="flex-1"
           contentContainerClassName="px-6 pt-6 gap-5"
           keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
         >
           <ControlledInput
             control={control}
@@ -86,6 +86,6 @@ export default function SignInScreen() {
           />
         </View>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </Screen>
   );
 }

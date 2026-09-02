@@ -38,8 +38,8 @@ export default function ListeningLibraryScreen() {
 
       <View className="px-6 pt-5">
         <Text variant="bodySm" tone="muted">
-          Section papers, not a full 40. The mock test is Phase 09. Original scripts — nothing from
-          a Cambridge book.
+          Section papers, not a full 40. Original scripts — nothing from a Cambridge book. The full
+          sitting is on the Mock tab.
         </Text>
       </View>
 

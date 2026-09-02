@@ -16,6 +16,7 @@
       "package": "com.bandmate.app",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
+      "softwareKeyboardLayoutMode": "resize",
       "adaptiveIcon": {
         "backgroundColor": "#F3F2F2",
         "foregroundImage": "./assets/images/android-icon-foreground.png",

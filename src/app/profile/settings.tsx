@@ -87,14 +87,13 @@ export default function SettingsScreen() {
         </Text>
         <SegmentedControl options={APPEARANCE_OPTIONS} value={mode} onChange={setMode} />
         <Text variant="caption" tone="muted">
-          System follows your phone. This uses the same theme as the rest of the app — not a second
-          palette.
+          System follows your phone.
         </Text>
       </View>
 
       <SettingsSection
         title="Notifications"
-        footer="Preferences on this device. Nothing is pushed — there is no notification server in this build."
+        footer="Stored on this device. Nothing is pushed — there is no notification server here."
       >
         <SettingsToggle
           label="Daily reminder"
@@ -151,7 +150,7 @@ export default function SettingsScreen() {
           onPress={() => saveName.mutate(name.trim())}
         />
         <Text variant="caption" tone="muted">
-          {profile.data.user.email} · email is how you sign in. Changing it needs a backend.
+          {profile.data.user.email} · email is how you sign in.
         </Text>
       </View>
 

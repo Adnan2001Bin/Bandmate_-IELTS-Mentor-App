@@ -205,8 +205,8 @@ export default function GoalsScreen() {
           }}
         />
         <Text variant="caption" tone="muted" className="mt-3">
-          Saving updates the target and countdown on Today. Today’s task list is still the seed until
-          a backend recuts it.
+          Saving updates the target and countdown on Today. I recut the session list when a sitting
+          lands, not from this screen.
         </Text>
       </View>
     </Screen>

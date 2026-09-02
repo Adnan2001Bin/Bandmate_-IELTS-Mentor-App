@@ -81,8 +81,8 @@ export default function WritingLibraryScreen() {
 
       <View className="px-6 pt-5">
         <Text variant="bodySm" tone="muted">
-          Task 1 and Task 2, Academic and General Training. Original prompts. The full timed pair is
-          Phase 09.
+          Task 1 and Task 2, Academic and General Training. Original prompts. The timed pair is on
+          the Mock tab.
         </Text>
         <View className="pt-4">
           <SegmentedControl options={FILTER_OPTIONS} value={filter} onChange={setFilter} />
