@@ -8,3 +8,6 @@ export * from './speaking';
 export * from './vocabulary';
 export * from './grammar';
 export * from './mentor';
+export * from './mock-test';
+export * from './progress';
+export * from './mistakes';

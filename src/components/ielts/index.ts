@@ -69,6 +69,9 @@ export {
   type MentorComposerProps,
 } from './mentor-composer';
 export { MentorStatus, type MentorPhase, type MentorStatusProps } from './mentor-status';
+export { TrajectoryChart, type TrajectoryChartProps } from './trajectory-chart';
+export { MistakeRow, type MistakeRowProps } from './mistake-row';
+export { LeagueRow, type LeagueRowProps } from './league-row';
 export { WordCounter, type WordCounterProps } from './word-counter';
 export { WritingEditor, type WritingEditorProps } from './writing-editor';
 export { WritingVisual, type WritingVisualProps } from './writing-visual';

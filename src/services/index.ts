@@ -11,6 +11,9 @@ import type {
   VocabularyService,
   GrammarService,
   MentorService,
+  MockTestService,
+  ProgressService,
+  MistakeService,
   WritingService,
 } from './contracts';
 import { mockAuthService } from './mock/auth';
@@ -24,6 +27,9 @@ import { mockSpeakingService } from './mock/speaking';
 import { mockVocabularyService } from './mock/vocabulary';
 import { mockGrammarService } from './mock/grammar';
 import { mockMentorService } from './mock/mentor';
+import { mockMockTestService } from './mock/mock-test';
+import { mockProgressService } from './mock/progress';
+import { mockMistakeService } from './mock/mistakes';
 import { mockWritingService } from './mock/writing';
 
 /**
@@ -44,6 +50,9 @@ type ServiceRegistry = {
   vocabulary: VocabularyService;
   grammar: GrammarService;
   mentor: MentorService;
+  mockTest: MockTestService;
+  progress: ProgressService;
+  mistakes: MistakeService;
 };
 
 const mockServices: ServiceRegistry = {
@@ -59,6 +68,9 @@ const mockServices: ServiceRegistry = {
   vocabulary: mockVocabularyService,
   grammar: mockGrammarService,
   mentor: mockMentorService,
+  mockTest: mockMockTestService,
+  progress: mockProgressService,
+  mistakes: mockMistakeService,
 };
 
 function resolveServices(): ServiceRegistry {

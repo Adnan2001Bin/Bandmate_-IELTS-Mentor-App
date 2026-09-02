@@ -45,4 +45,22 @@ export const queryKeys = {
     home: ['mentor', 'home'] as const,
     thread: ['mentor', 'thread'] as const,
   },
+  mock: {
+    tests: ['mock', 'tests'] as const,
+    test: (id: string) => ['mock', 'test', id] as const,
+    reports: ['mock', 'reports'] as const,
+    report: (id: string) => ['mock', 'report', id] as const,
+    proposal: (id: string) => ['mock', 'proposal', id] as const,
+  },
+  progress: {
+    snapshot: ['progress', 'snapshot'] as const,
+    history: ['progress', 'history'] as const,
+    weaknesses: ['progress', 'weaknesses'] as const,
+    league: ['progress', 'league'] as const,
+  },
+  mistakes: {
+    categories: ['mistakes', 'categories'] as const,
+    list: (area: string) => ['mistakes', 'list', area] as const,
+    item: (id: string) => ['mistakes', 'item', id] as const,
+  },
 };

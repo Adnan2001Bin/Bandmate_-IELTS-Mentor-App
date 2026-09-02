@@ -2,9 +2,9 @@
 
 Living document. Updated at the end of every phase.
 
-- **Current phase:** 08 — AI mentor (Mira)
-- **Status:** Complete — typecheck, lint, and a Chrome walkthrough of Mira home → suggested prompt → thinking/typing → reply with actions → study plan → retry path
-- **Next phase:** 09 — Mock tests + progress + weaknesses + mistakes (do not start without an explicit prompt)
+- **Current phase:** 09 — Mock tests + progress + weaknesses + mistakes
+- **Status:** Complete — typecheck, lint, and a Chrome walkthrough of Mock tab → Academic lobby → four papers → band report → recut plan; Progress (forecast, trajectory, league opt-in) → history → weaknesses; Mistakes → detail → practice again
+- **Next phase:** 10 — Profile + settings (do not start without an explicit prompt)
 
 ---
 
@@ -101,7 +101,7 @@ The deck (`Bandmate.dc.html`) applies the **Modernist** design system to a phone
 | 07D | Speaking | ✅ Complete |
 | 07E | Vocabulary + Grammar | ✅ Complete |
 | 08 | AI mentor (Mira) | ✅ Complete |
-| 09 | Mock tests + progress + weaknesses + mistakes | ⬜ Not started |
+| 09 | Mock tests + progress + weaknesses + mistakes | ✅ Complete |
 | 10 | Profile + settings | ⬜ Not started |
 | 11 | UI polish | ⬜ Not started |
 | 12 | QA + final verification | ⬜ Not started |
@@ -135,10 +135,10 @@ src/app/
   practice/          ✅ listening (library · brief · run · result · review) · reading (library · brief · run · result · review · study) · writing (library · brief · write · handwrite · analyzing · result · feedback) · speaking · vocabulary · grammar
   mira/              ✅ chat · plan
   session/           ✅ index (runner shell) · debrief     (skill modules are Phase 07)
-  mock/              ✅ lobby · report          (runner added in Phase 09)
-  progress/          ✅ index · history · weaknesses   (league deferred, §10.4)
+  mock/              ✅ [mockId] lobby · run · analyzing · reports · report · plan
+  progress/          ✅ index · history · weaknesses   (league is opt-in on the dashboard)
   profile/           ✅ goals · settings
-  mistakes/          ✅ index                   (detail added in Phase 09)
+  mistakes/          ✅ index · [mistakeId]
   (modals)/          ✅ plan-change             (submit-confirm · explanation · filters as needed)
   (auth)/            ✅ welcome · sign-in · sign-up
   (onboarding)/      ✅ goal · target · time · diagnostic-intro · diagnostic · result
@@ -229,16 +229,16 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done
 - ✅ Entry points into speaking / writing / vocabulary / grammar
 
 ### Mock tests & progress — Phase 09
-- ⬜ Mock list
-- ⬜ Mock lobby — timings, exam rules, Mira's prediction
-- ⬜ Section runner (Listening → Reading → Writing → Speaking)
-- ⬜ Band report — overall, four skills, honest read, question-type breakdown
-- ⬜ Plan-change dialog (accept / keep my plan)
-- ⬜ Progress dashboard — forecast, trajectory, per-band floor
-- ⬜ Practice & score history
-- ⬜ Weakness dashboard
-- ⬜ League (opt-in) + streak
-- ⬜ Mistake notebook — list, categories, detail, practice again
+- ✅ Mock list
+- ✅ Mock lobby — timings, exam rules, Mira's prediction
+- ✅ Section runner (Listening → Reading → Writing → Speaking)
+- ✅ Band report — overall, four skills, honest read, question-type breakdown
+- ✅ Plan-change screen (accept / keep my plan)
+- ✅ Progress dashboard — forecast, trajectory, per-band floor
+- ✅ Practice & score history
+- ✅ Weakness dashboard
+- ✅ League (opt-in) + streak
+- ✅ Mistake notebook — list, categories, detail, practice again
 
 ### Profile & settings — Phase 10
 - ⬜ Profile hub — links to progress, mistakes, vocabulary, history, goals, settings
@@ -309,7 +309,7 @@ In `src/components/layout`.
 - ✅ `QuestionBody` (shared listening / reading answer surface)
 - ✅ `ReadingPassage` (body-size prose, accent rule on locate)
 - ✅ `ReadingDiagram`
-- ⬜ `MistakeRow`
+- ✅ `MistakeRow`
 - ✅ `WritingEditor`
 - ✅ `WordCounter`
 - ⬜ `InlineFlag` (underline + tint inside prose) — live flags are a list under the editor; overlaying a TextInput is Phase 11 if needed
@@ -328,9 +328,9 @@ In `src/components/layout`.
 - ✅ `ExplanationCard`
 - ✅ `PracticeResult`
 - ✅ `MentorMessageBubble` / `MentorComposer` / `MentorStatus` / `MentorPromptChip`
-- ⬜ `TrajectoryChart` (bar columns, dashed = projected)
+- ✅ `TrajectoryChart` (bar columns, dashed = projected)
 - ✅ `StreakStrip`
-- ⬜ `LeagueRow`
+- ✅ `LeagueRow`
 - ✅ `PracticeCard` / `ProgressCard` / `PracticeStatusTag`
 - ✅ Plan-change modal (`(modals)/plan-change`) — skip remaining or swap the featured brief from the bench. Not a `Dialog` primitive.
 
@@ -352,11 +352,11 @@ In `src/components/layout`.
 - ✅ Grammar lessons + practice
 - ✅ Mira chat with user context (band, target, weaknesses, recent practice)
 - ✅ AI states: thinking / typing / responding / error / retry
-- ⬜ Full mock test flow + band report + plan change
-- ⬜ Band forecast + trajectory + per-band floor
-- ⬜ Weakness detection dashboard
-- ⬜ Mistake notebook across all skills
-- ⬜ Gamification: XP, streak, opt-in league (secondary, never leads)
+- ✅ Full mock test flow + band report + plan change
+- ✅ Band forecast + trajectory + per-band floor
+- ✅ Weakness detection dashboard
+- ✅ Mistake notebook across all skills
+- ✅ Gamification: XP, streak, opt-in league (secondary, never leads)
 - ⬜ Light / dark / system appearance, persisted
 - ⬜ Haptics on answer, recording, completion
 - ⬜ Loading / empty / error states on every data surface
@@ -380,27 +380,26 @@ In `src/components/layout`.
 - ✅ `speakingService` (topics, recording, evaluation)
 - ✅ `vocabularyService`
 - ✅ `grammarService`
-- ⬜ `mockTestService`
-- ⬜ `progressService` (forecast, history, analytics)
-- ⬜ `weaknessService`
-- ⬜ `mistakeService`
+- ✅ `mockTestService`
+- ✅ `progressService` (forecast, history, analytics, weaknesses, league)
+- ✅ `mistakeService` (weaknesses live on `progressService`, not a second contract)
 - ✅ `mentorService` (Mira chat + contextual responses)
 - ✅ `profileService` — contract + mock
 
 ### Mock data sets
 - ✅ User profile + goals + streak + XP
-- ✅ Daily plan (today's chain, bench, debrief). Session history remains Phase 09.
-- ✅ Listening tests (sections 1–4, all required question types, original transcripts). Full 40-question mock remains Phase 09.
-- ✅ Reading passages (Academic + General Training, all required question types). Full 40-question mock remains Phase 09.
+- ✅ Daily plan (today's chain, bench, debrief). Session history is on Progress → History.
+- ✅ Listening tests (sections 1–4, all required question types, original transcripts). Full mock is an exam shell — real clock, model script, not 40 live items.
+- ✅ Reading passages (Academic + General Training, all required question types). Same exam-shell honesty as listening.
 - ✅ Writing tasks (Task 1 Academic charts + GT letters, Task 2 essay types) + model evaluations
 - ✅ Speaking topics (parts 1–3, cue cards) + model debriefs
 - ✅ Vocabulary (11 categories, word entries with synonyms/examples/IELTS context)
 - ✅ Grammar (11 categories, lessons, questions, explanations)
-- ⬜ Mock tests + band reports
-- ⬜ Mistake bank entries across all skills
-- ⬜ Score history / trajectory
+- ✅ Mock tests + band reports
+- ✅ Mistake bank entries across all skills
+- ✅ Score history / trajectory
 - ✅ Mira conversation seeds + contextual response templates
-- ⬜ League members
+- ✅ League members
 
 Rule: **no data literals inside screens.** Screens read from hooks; hooks read from services; services read from `mocks/`.
 
@@ -432,11 +431,11 @@ Rule: **no data literals inside screens.** Screens read from hooks; hooks read f
 
 1. **Gluestack UI — not used.** `FRONTEND_STACK.md` recommends it, but the design system is zero-radius and rule-driven, so Gluestack's defaults would be overridden almost completely. Building on **NativeWind + our own primitives**, consistent with the stack doc's own "not 20 UI libraries" guidance.
 2. **Profile is the fifth tab**, per `APP_DESCRIPTION.md` §32. Progress lives inside Profile, with a shortcut from the Today header.
+3. **League / leaderboard.** Built in Phase 09 as a muted opt-in on Progress. Sorted by XP (effort), not band. Off by default. Never the hero of the screen.
 
 ### Still open
 
-3. **Paywall / premium.** In `APP_DESCRIPTION.md` §27 and designed in the deck (2g), but no payments exist. Recommendation: **defer to a later phase**, build the screen as a static presentation if wanted.
-4. **League / leaderboard.** Present in both §15 and the deck as opt-in. Recommendation: **build it in Phase 09**, sorted by effort within a shared target band, opt-out visible.
+4. **Paywall / premium.** In `APP_DESCRIPTION.md` §27 and designed in the deck (2g), but no payments exist. Recommendation: **defer to a later phase**, build the screen as a static presentation if wanted.
 
 ---
 
@@ -467,6 +466,32 @@ Filled in from Phase 04 onward; verified in full at Phase 12.
 ---
 
 ## 12. Phase log
+
+### Phase 09 — Tests, progress, weaknesses, mistakes · ✅
+
+**An exam shell, not a Cambridge paper.** The Mock tab lists Academic (Today), General Training, and a short checkpoint. The checkpoint is a later sitting, not a second onboarding diagnostic — that stayed voice-first in Phase 05. Four papers run L→R→W→S on a real 1-second clock. You may submit a paper early. The 40 answers are a model script; the lobby and library say so.
+
+**The band is practice-only.** Analyzing marks the sitting, then the report shows overall, four `SkillBar`s, the honest read, one pattern, and question-type counts. Every score is labelled AI estimated. Recut plan is accept / keep. Accept notes the recut; Today’s seed chain still shows until a backend writes a new day.
+
+**Progress is proof, not a game.** Current / target / forecast, skill bars from 4.0, a column trajectory (dashed = projected, red rule = target), analytics, streak. League is opt-in, muted, sorted by XP, Adnan third. History is sessions, drills, and sittings. Weaknesses are ranked; Held means leave it. Fluency opens the hometown speaking set.
+
+**The notebook is 11 misses.** Same count as the Practice hub. Filter by skill, open why (never “Correct!”), practice again into the drill that produced the miss.
+
+**Screens read `mockTestService` / `progressService` / `mistakeService`.** Reports persist on device (`storageKeys.mockReports`). League opt-in too (`storageKeys.leagueOptIn`).
+
+**Decisions made during the build**
+
+- **Not 40+40 authored items.** A real clock plus a model script is honest. Pretending we wrote a live Cambridge paper is not.
+- **Checkpoint ≠ onboarding diagnostic.** Onboarding stays the 30-second voice sample. The Mock tab’s Diagnostic sitting is a later 43-minute recut.
+- **Plan accept does not rewrite Today.** `acceptPlan` delays only. The plan screen says so.
+- **League never leads.** Off until Join. Leave is a ghost under the list.
+- **Weaknesses share `progressService`.** One contract, not a second `weaknessService`.
+
+**Verified.** `tsc --noEmit` clean, `expo lint` clean. Chrome walkthrough: Mock tab (honesty copy) → Academic lobby (164 min, four papers, Mira’s prediction) → Start → submit four papers early → band report 6.0 (AI estimated, honest read, types) → recut plan (accept / keep; seed-chain disclaimer) → Keep my plan → Progress (6.0 / 7.0 / forecast +0.5, trajectory, analytics) → Join the league (Adnan 3rd) → History → Weaknesses (fluency leak → hometown speaking) → Mistakes (11, Grammar filter → 1) → Articles detail → Practice again (Articles lesson). Cursor IDE browser MCP was unavailable; walkthrough used Chrome `--remote-debugging-port=9222`.
+
+**Not done, by design.** Profile hub (Phase 10). Real 40-item papers. Real LLM marking. Today’s chain still the seed after Accept.
+
+**Still to confirm on device.** Clock and submit on a physical phone, league opt-in after an app kill, and hardware back through reports → lobby → Mock tab.
 
 ### Phase 08 — AI mentor (Mira) · ✅
 

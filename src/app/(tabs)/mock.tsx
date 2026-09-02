@@ -1,43 +1,69 @@
-import { useRouter, type Href } from 'expo-router';
-import { ClipboardList, FileBarChart } from 'lucide-react-native';
+import { useRouter } from 'expo-router';
 import { View } from 'react-native';
 
 import { AppHeader } from '@/components/layout';
-import { ListRow, Rule, Screen, Tag, Text } from '@/components/ui';
-import type { IconComponent } from '@/components/ui';
+import { ErrorState, ListRow, Rule, Screen, Skeleton, Tag, Text } from '@/components/ui';
+import { MOCK_REPORTS_HREF, mockLobbyHref, useMockTests } from '@/features/mock';
 
-const ROUTES: readonly { href: Href; label: string; description: string; icon: IconComponent }[] = [
-  { href: '/mock/lobby', label: 'Take a mock test', description: 'Full test under exam timing', icon: ClipboardList },
-  { href: '/mock/report', label: 'Past reports', description: 'Band breakdown by section', icon: FileBarChart },
-];
-
-export default function MockScreen() {
+export default function MockLibraryScreen() {
   const router = useRouter();
+  const { data, isPending, isError, refetch } = useMockTests();
+
+  if (isPending) {
+    return (
+      <Screen>
+        <AppHeader title="Mock" kicker="Full test, timed" />
+        <View className="gap-3 px-6 pt-4">
+          <Skeleton height={72} />
+          <Skeleton height={72} />
+        </View>
+      </Screen>
+    );
+  }
+
+  if (isError || !data) {
+    return (
+      <Screen>
+        <AppHeader title="Mock" kicker="Full test, timed" />
+        <View className="px-6 pt-6">
+          <ErrorState onRetry={() => void refetch()} />
+        </View>
+      </Screen>
+    );
+  }
 
   return (
     <Screen scroll>
       <AppHeader title="Mock" kicker="Full test, timed" />
 
-      <View className="gap-4 px-6 pt-6">
-        <Tag label="Phase 09" tone="outline" />
-        <Text variant="body" tone="muted">
-          The lobby, the timed runner and the band report are built here in Phase 09.
+      <View className="px-6 pt-5">
+        <Text variant="bodySm" tone="muted">
+          Four papers, one sitting. The clock is real. The 40 answers are a model script — not a live
+          Cambridge paper.
         </Text>
       </View>
 
-      <View className="mt-6 px-6">
+      <View className="px-6 pt-4">
         <Rule weight="section" />
-        {ROUTES.map((route, index) => (
-          <View key={route.label}>
-            {index > 0 ? <Rule /> : null}
+        {data.map((item) => (
+          <View key={item.id}>
             <ListRow
-              label={route.label}
-              description={route.description}
-              icon={route.icon}
-              onPress={() => router.push(route.href)}
+              label={item.title}
+              description={`${item.kicker} · ${item.minutes} min${item.lastBand ? ` · last ${item.lastBand.toFixed(1)}` : ''}`}
+              accessory={item.recommended ? <Tag label="Today" tone="accent" /> : undefined}
+              onPress={() => router.push(mockLobbyHref(item.id))}
             />
+            <Rule />
           </View>
         ))}
+      </View>
+
+      <View className="px-6 pb-2 pt-4">
+        <ListRow
+          label="Past reports"
+          description="Band breakdown by sitting"
+          onPress={() => router.push(MOCK_REPORTS_HREF)}
+        />
         <Rule weight="section" />
       </View>
     </Screen>

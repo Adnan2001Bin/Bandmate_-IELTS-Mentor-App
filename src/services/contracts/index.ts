@@ -19,3 +19,6 @@ export type {
 } from './vocabulary';
 export type { GrammarService, GrammarSubmitInput } from './grammar';
 export type { MentorService, MentorSendInput } from './mentor';
+export type { MockTestService } from './mock-test';
+export type { ProgressService } from './progress';
+export type { MistakeService } from './mistakes';
